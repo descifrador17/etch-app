@@ -33,6 +33,13 @@ struct DeckDetailView: View {
     private func content(_ viewModel: DeckDetailViewModel) -> some View {
         ScrollView {
             VStack(spacing: Theme.Spacing.interCard) {
+                HStack {
+                    Text("[\(viewModel.deck.difficulty.label)]")
+                        .font(Theme.Typo.caption)
+                        .foregroundStyle(viewModel.deck.difficulty.tint)
+                    Spacer()
+                }
+
                 if viewModel.hasDue {
                     CalmButton("study \(viewModel.dueCount) due") {
                         studying = true

@@ -19,9 +19,14 @@ struct DeckRow: View {
                         .foregroundStyle(Theme.Palette.ink)
                         .lineLimit(2)
 
-                    Text("\(deck.cards.count) card\(deck.cards.count == 1 ? "" : "s")")
-                        .font(Theme.Typo.caption)
-                        .foregroundStyle(Theme.Palette.inkSecondary)
+                    HStack(spacing: Theme.Spacing.xs) {
+                        Text("\(deck.cards.count) card\(deck.cards.count == 1 ? "" : "s")")
+                            .font(Theme.Typo.caption)
+                            .foregroundStyle(Theme.Palette.inkSecondary)
+                        Text("[\(deck.difficulty.label)]")
+                            .font(Theme.Typo.caption)
+                            .foregroundStyle(deck.difficulty.tint)
+                    }
                 }
 
                 Spacer(minLength: Theme.Spacing.sm)
@@ -37,8 +42,8 @@ struct DeckRow: View {
         .accessibilityElement(children: .combine)
         .accessibilityLabel(
             dueCount > 0
-                ? "\(deck.title), \(deck.cards.count) cards, \(dueCount) due"
-                : "\(deck.title), \(deck.cards.count) cards"
+                ? "\(deck.title), \(deck.cards.count) cards, \(deck.difficulty.label), \(dueCount) due"
+                : "\(deck.title), \(deck.cards.count) cards, \(deck.difficulty.label)"
         )
     }
 }
