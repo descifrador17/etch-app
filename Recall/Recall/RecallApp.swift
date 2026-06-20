@@ -10,6 +10,7 @@ struct RecallApp: App {
             RootView()
                 .environment(container)
                 .tint(Theme.Palette.accent)
+                .preferredColorScheme(.dark)
         }
     }
 }
