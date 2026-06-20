@@ -1,7 +1,7 @@
 import SwiftUI
 import RecallKit
 
-/// Streaming UI: 8 shimmer skeletons that are replaced, one at a time, by real
+/// Streaming UI: terminal placeholder rows replaced, one at a time, by real
 /// cards rising into place. The deck title fades in once it arrives.
 struct GeneratingView: View {
     let title: String?
@@ -28,23 +28,24 @@ struct GeneratingView: View {
             }
             .scrollIndicators(.hidden)
 
-            CalmButton("Stop", style: .quiet, action: onStop)
+            CalmButton("stop", style: .quiet, action: onStop)
         }
     }
 
     @ViewBuilder
     private var titleHeader: some View {
         if let title {
-            Text(title)
+            Text("> \(title)")
                 .font(Theme.Typo.title)
                 .foregroundStyle(Theme.Palette.ink)
-                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .transition(.opacity)
                 .id(title)
         } else {
-            Text("Writing your deck…")
+            Text("> writing your deck…")
                 .font(Theme.Typo.title)
                 .foregroundStyle(Theme.Palette.inkSecondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
@@ -59,12 +60,12 @@ struct GeneratingView: View {
                 )
         } else {
             ShimmerPlaceholder()
-                .frame(height: 96)
+                .frame(height: 72)
         }
     }
 }
 
-/// A freshly streamed card — shows the question, calm and settled.
+/// A freshly streamed card — shows the question in a terminal frame.
 private struct StreamingCard: View {
     let card: Flashcard
 
@@ -89,4 +90,5 @@ private struct StreamingCard: View {
     )
     .padding()
     .background(Theme.Palette.surface)
+    .preferredColorScheme(.dark)
 }

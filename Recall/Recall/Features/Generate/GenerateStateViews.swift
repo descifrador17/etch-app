@@ -1,23 +1,18 @@
 import SwiftUI
 import RecallKit
 
-/// Calm explanatory state when on-device generation isn't available (§11).
+/// Terminal explanatory state when on-device generation isn't available (§11).
 struct UnavailableStateView: View {
     let reason: GenerationError.UnavailableReason
 
     var body: some View {
-        CalmMessage(
-            symbol: symbol,
-            title: title,
-            message: message,
-            showsShimmer: reason == .modelNotReady
-        )
+        CalmMessage(glyph: glyph, title: title, message: message)
     }
 
-    private var symbol: String {
+    private var glyph: String {
         switch reason {
-        case .modelNotReady: "hourglass"
-        default: "sparkles"
+        case .modelNotReady: "[...]"
+        default: "[x]"
         }
     }
 
@@ -42,15 +37,15 @@ struct UnavailableStateView: View {
     }
 }
 
-/// Calm failure state with a single retry affordance (§11).
+/// Terminal failure state with a single retry affordance (§11).
 struct FailedStateView: View {
     let error: GenerationError
     let onRetry: () -> Void
 
     var body: some View {
         VStack(spacing: Theme.Spacing.section) {
-            CalmMessage(symbol: "leaf", title: title, message: message)
-            CalmButton("Try again", action: onRetry)
+            CalmMessage(glyph: "[x]", title: title, message: message)
+            CalmButton("try again", action: onRetry)
                 .frame(maxWidth: 320)
         }
     }
@@ -78,28 +73,20 @@ struct FailedStateView: View {
     }
 }
 
-/// Shared calm empty/error layout — soft symbol, title, one line of copy.
+/// Shared terminal empty/error layout — a bracket glyph, a title, one mono line.
 struct CalmMessage: View {
-    let symbol: String
+    let glyph: String
     let title: String
     let message: String
-    var showsShimmer = false
 
     var body: some View {
         VStack(spacing: Theme.Spacing.md) {
-            if showsShimmer {
-                ShimmerPlaceholder(cornerRadius: Theme.Radius.button)
-                    .frame(width: 64, height: 64)
-            } else {
-                Image(systemName: symbol)
-                    .font(.system(size: 44, weight: .light))
-                    .foregroundStyle(Theme.Palette.accent)
-            }
-
+            Text(glyph)
+                .font(Theme.Typo.display)
+                .foregroundStyle(Theme.Palette.inkSecondary)
             Text(title)
                 .font(Theme.Typo.title)
                 .foregroundStyle(Theme.Palette.ink)
-
             Text(message)
                 .font(Theme.Typo.body)
                 .foregroundStyle(Theme.Palette.inkSecondary)
@@ -114,10 +101,12 @@ struct CalmMessage: View {
     UnavailableStateView(reason: .appleIntelligenceNotEnabled)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Theme.Palette.surface)
+        .preferredColorScheme(.dark)
 }
 
 #Preview("Failed") {
     FailedStateView(error: .noUsableCards, onRetry: {})
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Theme.Palette.surface)
+        .preferredColorScheme(.dark)
 }
