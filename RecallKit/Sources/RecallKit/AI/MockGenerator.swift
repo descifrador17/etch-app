@@ -35,7 +35,7 @@ public final class MockGenerator: FlashcardGenerating {
 
     public func prewarm() {}
 
-    public func streamDeck(topic: String) -> AsyncThrowingStream<DeckSnapshot, Error> {
+    public func streamDeck(topic: String, difficulty: Difficulty = .medium) -> AsyncThrowingStream<DeckSnapshot, Error> {
         let behavior = behavior
         let stepDelay = stepDelay
         return AsyncThrowingStream { continuation in

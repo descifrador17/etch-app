@@ -47,7 +47,7 @@ final class GenerateViewModel {
         task = Task {
             do {
                 var last = DeckSnapshot()
-                for try await snapshot in generator.streamDeck(topic: trimmed) {
+                for try await snapshot in generator.streamDeck(topic: trimmed, difficulty: difficulty) {
                     streamingTitle = snapshot.title ?? streamingTitle
                     streamingCards = snapshot.cards
                     last = snapshot

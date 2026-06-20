@@ -29,6 +29,20 @@ struct GenerationMappingTests {
         #expect(final.cards.map(\.orderIndex) == Array(0..<MockGenerator.sampleCards.count))
     }
 
+    @Test("Mock accepts a difficulty and still streams the sample deck")
+    func mockAcceptsDifficulty() async throws {
+        let generator = MockGenerator(
+            behavior: .stream(cards: MockGenerator.sampleCards, title: "T"),
+            stepDelay: .milliseconds(1)
+        )
+        var final: DeckSnapshot?
+        for try await snapshot in generator.streamDeck(topic: "x", difficulty: .ultra) {
+            final = snapshot
+        }
+        #expect(final?.isComplete == true)
+        #expect(final?.cards.count == MockGenerator.sampleCards.count)
+    }
+
     @Test("Empty topic fails fast with .emptyTopic")
     func emptyTopicFails() async {
         let generator = MockGenerator(stepDelay: .milliseconds(1))

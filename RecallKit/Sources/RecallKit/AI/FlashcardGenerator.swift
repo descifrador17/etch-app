@@ -25,11 +25,11 @@ public final class FlashcardGenerator: FlashcardGenerating {
 
     public func prewarm() {
         guard case .available = availability else { return }
-        let session = LanguageModelSession(instructions: Self.instructions)
+        let session = LanguageModelSession(instructions: Self.instructions(for: .medium))
         session.prewarm()
     }
 
-    public func streamDeck(topic: String) -> AsyncThrowingStream<DeckSnapshot, Error> {
+    public func streamDeck(topic: String, difficulty: Difficulty = .medium) -> AsyncThrowingStream<DeckSnapshot, Error> {
         AsyncThrowingStream { continuation in
             let trimmed = topic.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !trimmed.isEmpty else {
@@ -45,10 +45,10 @@ public final class FlashcardGenerator: FlashcardGenerating {
 
             let task = Task { @MainActor in
                 do {
-                    let session = LanguageModelSession(instructions: Self.instructions)
+                    let session = LanguageModelSession(instructions: Self.instructions(for: difficulty))
                     let options = GenerationOptions(temperature: 0.6)
                     let stream = session.streamResponse(
-                        to: Self.prompt(for: trimmed),
+                        to: Self.prompt(for: trimmed, difficulty: difficulty),
                         generating: GeneratedDeck.self,
                         options: options
                     )
@@ -79,15 +79,30 @@ public final class FlashcardGenerator: FlashcardGenerating {
 
     // MARK: - Prompt
 
-    private static let instructions = """
+    private static let baseInstructions = """
     You generate concise study flashcards. Each card tests exactly one idea. \
     Questions are specific and unambiguous. Answers are correct and self-contained, \
     1 to 3 sentences, with no filler. Cover the most important, distinct sub-topics. \
     Avoid duplicate cards. Use clear, plain language.
     """
 
-    private static func prompt(for topic: String) -> String {
-        "Create a study flashcard deck for the topic: \"\(topic)\"."
+    private static func instructions(for difficulty: Difficulty) -> String {
+        let level: String
+        switch difficulty {
+        case .easy:
+            level = "Target a beginner. Test basic recall: definitions, key terms, and simple facts. Keep questions short and answers to a single sentence."
+        case .medium:
+            level = "Target a learner with some familiarity. Test solid conceptual understanding and the relationships between ideas."
+        case .hard:
+            level = "Target an advanced learner. Test applied reasoning, comparisons, cause and effect, and common misconceptions."
+        case .ultra:
+            level = "Target an expert. Test deep synthesis, edge cases, subtle distinctions, and non-obvious implications."
+        }
+        return baseInstructions + " " + level
+    }
+
+    private static func prompt(for topic: String, difficulty: Difficulty) -> String {
+        "Create a \(difficulty.rawValue)-difficulty study flashcard deck for the topic: \"\(topic)\"."
     }
 
     // MARK: - Mapping
