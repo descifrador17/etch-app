@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Replace Recall's warm "calm" design system with the dark-only, terminal-native (monospace / ASCII-bracket / hairline-flat) language from `docs/DESIGN.md`, across every screen.
+**Goal:** Replace etch's warm "calm" design system with the dark-only, terminal-native (monospace / ASCII-bracket / hairline-flat) language from `docs/DESIGN.md`, across every screen.
 
 **Architecture:** Redefine the design tokens in `Theme.swift` (code-defined inverted-dark palette + monospaced type + sharp shape, no shadows), restyle the four shared components, force dark color scheme at the app root, then restyle each of the four feature screens. All changes are in-place edits to existing files — no new source files, so the Xcode project does **not** need regenerating.
 
-**Tech Stack:** SwiftUI (iOS 26), Swift 6 strict concurrency, local `RecallKit` SPM package (Design layer), Xcode 26.
+**Tech Stack:** SwiftUI (iOS 26), Swift 6 strict concurrency, local `etchKit` SPM package (Design layer), Xcode 26.
 
 ## Global Constraints
 
@@ -17,16 +17,16 @@
 - Preserve all existing behavior: generation streaming, card flip, spaced-repetition grading, swipe-to-delete, accessibility labels, and Reduce-Motion paths.
 - Swift 6 strict concurrency; `@MainActor` protocols unchanged. No networking.
 - Verification command (the build gate), run from repo root:
-  `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
-- Unit tests (run at the end), from `RecallKit/`:
-  `xcodebuild test -scheme RecallKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`
+  `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+- Unit tests (run at the end), from `etchKit/`:
+  `xcodebuild test -scheme etchKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`
 
 ---
 
 ### Task 1: Redefine design tokens in Theme.swift
 
 **Files:**
-- Modify: `RecallKit/Sources/RecallKit/Design/Theme.swift`
+- Modify: `etchKit/Sources/etchKit/Design/Theme.swift`
 
 **Interfaces:**
 - Produces:
@@ -128,13 +128,13 @@ public extension Theme {
 
 - [ ] **Step 2: Build to verify it compiles**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **` (existing call sites still resolve via retained names).
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add RecallKit/Sources/RecallKit/Design/Theme.swift
+git add etchKit/Sources/etchKit/Design/Theme.swift
 git commit -m "design: invert tokens to terminal-dark palette and monospaced type"
 ```
 
@@ -143,8 +143,8 @@ git commit -m "design: invert tokens to terminal-dark palette and monospaced typ
 ### Task 2: Restyle CardSurface as a flat terminal frame
 
 **Files:**
-- Modify: `RecallKit/Sources/RecallKit/Design/Components/CardSurface.swift`
-- Modify: `RecallKit/Sources/RecallKit/Design/Theme.swift` (delete `Theme.Shadow`)
+- Modify: `etchKit/Sources/etchKit/Design/Components/CardSurface.swift`
+- Modify: `etchKit/Sources/etchKit/Design/Theme.swift` (delete `Theme.Shadow`)
 
 **Interfaces:**
 - Consumes: `Theme.Palette.surfaceRaised`, `Theme.Palette.hairline`, `Theme.Radius.card`.
@@ -193,17 +193,17 @@ public struct CardSurface<Content: View>: View {
 
 - [ ] **Step 2: Delete the now-orphaned `Theme.Shadow` enum**
 
-In `RecallKit/Sources/RecallKit/Design/Theme.swift`, remove the entire `enum Shadow { ... }` block added/retained in Task 1 (and its doc comment).
+In `etchKit/Sources/etchKit/Design/Theme.swift`, remove the entire `enum Shadow { ... }` block added/retained in Task 1 (and its doc comment).
 
 - [ ] **Step 3: Build to verify**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **` (no remaining references to `Theme.Shadow`).
 
 - [ ] **Step 4: Commit**
 
 ```bash
-git add RecallKit/Sources/RecallKit/Design/Components/CardSurface.swift RecallKit/Sources/RecallKit/Design/Theme.swift
+git add etchKit/Sources/etchKit/Design/Components/CardSurface.swift etchKit/Sources/etchKit/Design/Theme.swift
 git commit -m "design: flatten CardSurface to a hairline terminal frame; drop shadow token"
 ```
 
@@ -212,7 +212,7 @@ git commit -m "design: flatten CardSurface to a hairline terminal frame; drop sh
 ### Task 3: Restyle CalmButton (blue primary / quiet outline)
 
 **Files:**
-- Modify: `RecallKit/Sources/RecallKit/Design/Components/CalmButton.swift`
+- Modify: `etchKit/Sources/etchKit/Design/Components/CalmButton.swift`
 
 **Interfaces:**
 - Consumes: `Theme.Palette.accent`, `.ink`, `.inkSecondary`, `.hairlineStrong`, `Theme.Typo.buttonLabel`, `Theme.Radius.button`.
@@ -321,13 +321,13 @@ public struct CalmButton: View {
 
 - [ ] **Step 2: Build to verify**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add RecallKit/Sources/RecallKit/Design/Components/CalmButton.swift
+git add etchKit/Sources/etchKit/Design/Components/CalmButton.swift
 git commit -m "design: terminal CalmButton — blue primary, bracketed quiet outline"
 ```
 
@@ -336,7 +336,7 @@ git commit -m "design: terminal CalmButton — blue primary, bracketed quiet out
 ### Task 4: Restyle ShimmerPlaceholder as a terminal block
 
 **Files:**
-- Modify: `RecallKit/Sources/RecallKit/Design/Components/ShimmerPlaceholder.swift`
+- Modify: `etchKit/Sources/etchKit/Design/Components/ShimmerPlaceholder.swift`
 
 **Interfaces:**
 - Consumes: `Theme.Palette.surfaceRaised`, `.hairline`, `Theme.Radius.card`.
@@ -394,13 +394,13 @@ public struct ShimmerPlaceholder: View {
 
 - [ ] **Step 2: Build to verify**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add RecallKit/Sources/RecallKit/Design/Components/ShimmerPlaceholder.swift
+git add etchKit/Sources/etchKit/Design/Components/ShimmerPlaceholder.swift
 git commit -m "design: terminal placeholder block, no gradient sweep"
 ```
 
@@ -409,7 +409,7 @@ git commit -m "design: terminal placeholder block, no gradient sweep"
 ### Task 5: Restyle GradeBar as bracketed colored grades
 
 **Files:**
-- Modify: `Recall/Recall/Features/Study/GradeBar.swift`
+- Modify: `etch/etch/Features/Study/GradeBar.swift`
 
 **Interfaces:**
 - Consumes: `ReviewGrade` (`.again/.hard/.good/.easy`, `allCases`), `Theme.Palette.grade*`, `Theme.Typo.buttonLabel`, `Theme.Radius.button`.
@@ -419,7 +419,7 @@ git commit -m "design: terminal placeholder block, no gradient sweep"
 
 ```swift
 import SwiftUI
-import RecallKit
+import etchKit
 
 /// Four bracketed grade buttons, each in its semantic color:
 /// again=red, hard=orange, good=yellow, easy=green.
@@ -480,13 +480,13 @@ struct GradeBar: View {
 
 - [ ] **Step 2: Build to verify**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add Recall/Recall/Features/Study/GradeBar.swift
+git add etch/etch/Features/Study/GradeBar.swift
 git commit -m "design: bracketed colored GradeBar (red/orange/yellow/green ramp)"
 ```
 
@@ -495,7 +495,7 @@ git commit -m "design: bracketed colored GradeBar (red/orange/yellow/green ramp)
 ### Task 6: Force dark color scheme at the app root
 
 **Files:**
-- Modify: `Recall/Recall/RecallApp.swift`
+- Modify: `etch/etch/etchApp.swift`
 
 **Interfaces:**
 - Consumes: `Theme.Palette.accent`.
@@ -505,10 +505,10 @@ git commit -m "design: bracketed colored GradeBar (red/orange/yellow/green ramp)
 
 ```swift
 import SwiftUI
-import RecallKit
+import etchKit
 
 @main
-struct RecallApp: App {
+struct etchApp: App {
     @State private var container = AppContainer()
 
     var body: some Scene {
@@ -524,13 +524,13 @@ struct RecallApp: App {
 
 - [ ] **Step 2: Build to verify**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add Recall/Recall/RecallApp.swift
+git add etch/etch/etchApp.swift
 git commit -m "design: pin app to dark mode only"
 ```
 
@@ -539,19 +539,19 @@ git commit -m "design: pin app to dark mode only"
 ### Task 7: Custom terminal top-nav in RootView
 
 **Files:**
-- Modify: `Recall/Recall/RootView.swift`
+- Modify: `etch/etch/RootView.swift`
 
 **Interfaces:**
 - Consumes: `DecksView()`, `GenerateView()`, `Theme.Palette.*`, `Theme.Typo.*`, `Theme.Spacing.*`, `Haptics.softTap()`.
-- Produces: `RootView` — a `recall` wordmark (left) + `decks` / `create` text tabs (right, active = ink + 2px underline, resting = mute), with the selected screen below. Replaces the system `TabView` chrome.
+- Produces: `RootView` — a `etch` wordmark (left) + `decks` / `create` text tabs (right, active = ink + 2px underline, resting = mute), with the selected screen below. Replaces the system `TabView` chrome.
 
 - [ ] **Step 1: Replace the file contents**
 
 ```swift
 import SwiftUI
-import RecallKit
+import etchKit
 
-/// Top "primary-nav" strip: `recall` wordmark at left, `decks` / `create` text
+/// Top "primary-nav" strip: `etch` wordmark at left, `decks` / `create` text
 /// tabs at right. The selected screen (each its own NavigationStack) renders below.
 struct RootView: View {
     private enum Section: String, CaseIterable {
@@ -577,7 +577,7 @@ struct RootView: View {
 
     private var nav: some View {
         HStack(alignment: .firstTextBaseline) {
-            Text("recall")
+            Text("etch")
                 .font(Theme.Typo.title)
                 .foregroundStyle(Theme.Palette.ink)
             Spacer()
@@ -621,13 +621,13 @@ struct RootView: View {
 
 - [ ] **Step 2: Build to verify**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add Recall/Recall/RootView.swift
+git add etch/etch/RootView.swift
 git commit -m "design: terminal top-nav strip replacing system tab bar"
 ```
 
@@ -636,8 +636,8 @@ git commit -m "design: terminal top-nav strip replacing system tab bar"
 ### Task 8: Restyle Decks list, rows, and empty state
 
 **Files:**
-- Modify: `Recall/Recall/Features/Decks/DecksView.swift`
-- Modify: `Recall/Recall/Features/Decks/DeckRow.swift`
+- Modify: `etch/etch/Features/Decks/DecksView.swift`
+- Modify: `etch/etch/Features/Decks/DeckRow.swift`
 
 **Interfaces:**
 - Consumes: `Deck` (`.title`, `.cards`, `.dueCount()`), `Theme.*`, `CardSurface`, `Motion.settle`.
@@ -647,7 +647,7 @@ git commit -m "design: terminal top-nav strip replacing system tab bar"
 
 ```swift
 import SwiftUI
-import RecallKit
+import etchKit
 
 struct DeckRow: View {
     let deck: Deck
@@ -745,13 +745,13 @@ At the bottom of `DecksView.swift`, change the `#Preview("Decks")` block to appe
 
 - [ ] **Step 4: Build to verify**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add Recall/Recall/Features/Decks/DecksView.swift Recall/Recall/Features/Decks/DeckRow.swift
+git add etch/etch/Features/Decks/DecksView.swift etch/etch/Features/Decks/DeckRow.swift
 git commit -m "design: terminal deck rows and empty state"
 ```
 
@@ -760,8 +760,8 @@ git commit -m "design: terminal deck rows and empty state"
 ### Task 9: Restyle Generate idle + TopicField as a prompt
 
 **Files:**
-- Modify: `Recall/Recall/Features/Generate/GenerateView.swift`
-- Modify: `Recall/Recall/Features/Generate/TopicField.swift`
+- Modify: `etch/etch/Features/Generate/GenerateView.swift`
+- Modify: `etch/etch/Features/Generate/TopicField.swift`
 
 **Interfaces:**
 - Consumes: `GenerateViewModel`, `CardSurface`, `CalmButton`, `Theme.*`, `Motion.gentle`.
@@ -814,7 +814,7 @@ Replace only the `idle(_ viewModel:)` method with:
 
 ```swift
 import SwiftUI
-import RecallKit
+import etchKit
 
 /// The single prompt-style input. Placeholder rotates gentle lowercase examples
 /// behind a leading `> ` caret.
@@ -873,13 +873,13 @@ struct TopicField: View {
 
 - [ ] **Step 4: Build to verify**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add Recall/Recall/Features/Generate/GenerateView.swift Recall/Recall/Features/Generate/TopicField.swift
+git add etch/etch/Features/Generate/GenerateView.swift etch/etch/Features/Generate/TopicField.swift
 git commit -m "design: prompt-style Generate idle and TopicField"
 ```
 
@@ -888,8 +888,8 @@ git commit -m "design: prompt-style Generate idle and TopicField"
 ### Task 10: Restyle Generate state views + streaming view
 
 **Files:**
-- Modify: `Recall/Recall/Features/Generate/GenerateStateViews.swift`
-- Modify: `Recall/Recall/Features/Generate/GeneratingView.swift`
+- Modify: `etch/etch/Features/Generate/GenerateStateViews.swift`
+- Modify: `etch/etch/Features/Generate/GeneratingView.swift`
 
 **Interfaces:**
 - Consumes: `GenerationError`, `CalmButton`, `CardSurface`, `ShimmerPlaceholder`, `Flashcard`, `Theme.*`, `Motion.gentle`.
@@ -977,7 +977,7 @@ In `FailedStateView.body`, change the `CalmMessage(...)` call to:
 
 ```swift
 import SwiftUI
-import RecallKit
+import etchKit
 
 /// Streaming UI: terminal placeholder rows replaced, one at a time, by real
 /// cards rising into place. The deck title fades in once it arrives.
@@ -1074,13 +1074,13 @@ private struct StreamingCard: View {
 
 - [ ] **Step 5: Build to verify**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`
 
 - [ ] **Step 6: Commit**
 
 ```bash
-git add Recall/Recall/Features/Generate/GenerateStateViews.swift Recall/Recall/Features/Generate/GeneratingView.swift
+git add etch/etch/Features/Generate/GenerateStateViews.swift etch/etch/Features/Generate/GeneratingView.swift
 git commit -m "design: terminal generate-state + streaming views"
 ```
 
@@ -1089,9 +1089,9 @@ git commit -m "design: terminal generate-state + streaming views"
 ### Task 11: Restyle Study, Flashcard, and DeckDetail
 
 **Files:**
-- Modify: `Recall/Recall/Features/Study/StudyView.swift`
-- Modify: `Recall/Recall/Features/Review/FlashcardView.swift`
-- Modify: `Recall/Recall/Features/Review/DeckDetailView.swift`
+- Modify: `etch/etch/Features/Study/StudyView.swift`
+- Modify: `etch/etch/Features/Review/FlashcardView.swift`
+- Modify: `etch/etch/Features/Review/DeckDetailView.swift`
 
 **Interfaces:**
 - Consumes: `StudyViewModel`, `DeckDetailViewModel`, `Flashcard`, `GradeBar`, `CalmButton`, `CardSurface`, `Theme.*`, `Motion.*`.
@@ -1269,13 +1269,13 @@ And the preview:
 
 - [ ] **Step 6: Build to verify**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`
 
 - [ ] **Step 7: Commit**
 
 ```bash
-git add Recall/Recall/Features/Study/StudyView.swift Recall/Recall/Features/Review/FlashcardView.swift Recall/Recall/Features/Review/DeckDetailView.swift
+git add etch/etch/Features/Study/StudyView.swift etch/etch/Features/Review/FlashcardView.swift etch/etch/Features/Review/DeckDetailView.swift
 git commit -m "design: terminal flip card, progress bar, and session-end"
 ```
 
@@ -1287,17 +1287,17 @@ git commit -m "design: terminal flip card, progress bar, and session-end"
 
 - [ ] **Step 1: Clean build of the app**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`
 
-- [ ] **Step 2: Run RecallKit unit tests**
+- [ ] **Step 2: Run etchKit unit tests**
 
-Run: `cd RecallKit && xcodebuild test -scheme RecallKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`
+Run: `cd etchKit && xcodebuild test -scheme etchKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`
 Expected: `** TEST SUCCEEDED **` (scheduler, repository, generation-mapping unaffected by visual changes).
 
 - [ ] **Step 3: Run the UI happy-path test**
 
-Run: `xcodebuild test -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:RecallUITests/GenerateFlowUITests`
+Run: `xcodebuild test -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:etchUITests/GenerateFlowUITests`
 Expected: `** TEST SUCCEEDED **`. If a selector regressed because button titles were lowercased, update the test's expected strings (e.g. `createDeckButton` is matched by accessibility identifier, which is unchanged — no edit expected).
 
 - [ ] **Step 4: Visual smoke check (manual / via run skill)**

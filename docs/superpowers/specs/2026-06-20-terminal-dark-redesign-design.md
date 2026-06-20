@@ -1,7 +1,7 @@
 # Terminal-Dark Redesign — Design Spec
 
 **Date:** 2026-06-20
-**Scope:** Whole-app visual redesign of the Recall (etch-app) iOS flash-cards app.
+**Scope:** Whole-app visual redesign of the etch (etch-app) iOS flash-cards app.
 **Source design language:** `docs/DESIGN.md` (OpenCode terminal-native system), inverted to dark mode only.
 
 ---
@@ -107,7 +107,7 @@ terminal feel, but this is non-essential and motion tokens are not a focus.
 ## 5. Screens
 
 - **Root nav (`RootView`)** → replace the system bottom `TabView` with a top
-  `primary-nav` strip: `recall` wordmark at left; `decks` / `create` text tabs at
+  `primary-nav` strip: `etch` wordmark at left; `decks` / `create` text tabs at
   right (active = `ink` with 2px `hairlineStrong` underline + `aria`/accessibility
   current; resting = `mute`). Each tab hosts its own `NavigationStack` below the
   strip. Selection state held in `RootView`.
@@ -127,7 +127,7 @@ terminal feel, but this is non-essential and motion tokens are not a focus.
 
 ## 6. App wiring
 
-- `RecallApp` pins `.preferredColorScheme(.dark)` and keeps `.tint(accent)`.
+- `etchApp` pins `.preferredColorScheme(.dark)` and keeps `.tint(accent)`.
 - Palette is code-defined in `Theme.swift`; existing `Palette.xcassets` colorsets
   become unused (left in place, not deleted, to avoid project-file churn — they
   no longer feed the UI).
@@ -151,5 +151,5 @@ terminal feel, but this is non-essential and motion tokens are not a focus.
   the terminal vocabulary.
 - Existing behavior (generation streaming, flip, spaced-repetition grading,
   swipe-delete, accessibility labels/Reduce-Motion paths) is preserved.
-- `RecallKit` tests still pass; the app builds clean under Swift 6 strict
+- `etchKit` tests still pass; the app builds clean under Swift 6 strict
   concurrency.

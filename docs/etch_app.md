@@ -1,4 +1,4 @@
-# Recall — iOS Study App · Engineering Handoff
+# etch — iOS Study App · Engineering Handoff
 
 **Audience:** Claude Code (autonomous implementation) + reviewing iOS engineer
 **Target:** iOS 26.0+ · Swift 6.1 · Xcode 26 · SwiftUI lifecycle
@@ -8,7 +8,7 @@
 
 ## 1. Product in one paragraph
 
-Recall is a single-purpose study app. The user types any topic ("Krebs cycle", "Swift actors", "French R-conjugation"), and an **on-device** AI model generates a deck of flashcards. Decks persist locally in **Core Data**. The user reviews cards with a physical flip interaction and studies them on a **spaced-repetition** schedule. No account, no network, no telemetry. Everything runs and stays on the device.
+etch is a single-purpose study app. The user types any topic ("Krebs cycle", "Swift actors", "French R-conjugation"), and an **on-device** AI model generates a deck of flashcards. Decks persist locally in **Core Data**. The user reviews cards with a physical flip interaction and studies them on a **spaced-repetition** schedule. No account, no network, no telemetry. Everything runs and stays on the device.
 
 The entire product thesis is **calm**: nothing blocks, nothing nags, nothing spins harshly. Generation streams in card-by-card. Motion is soft and spring-driven. The palette is warm paper and muted ink. The app should feel closer to a paper notebook than a SaaS dashboard.
 
@@ -34,12 +34,12 @@ The entire product thesis is **calm**: nothing blocks, nothing nags, nothing spi
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│  App  (RecallApp)  — composition root, DI container       │
+│  App  (etchApp)  — composition root, DI container       │
 ├──────────────────────────────────────────────────────────┤
 │  Features (SwiftUI Views + @Observable ViewModels)        │
 │    Generate · Decks · Review · Study                      │
 ├──────────────────────────────────────────────────────────┤
-│  RecallKit  (local Swift Package)                         │
+│  etchKit  (local Swift Package)                         │
 │   ├─ AI       FlashcardGenerator (FoundationModels)       │
 │   ├─ Domain   Flashcard, Deck, ReviewGrade, Scheduler     │
 │   ├─ Data     CoreDataStack, FlashcardRepository (proto)  │
@@ -52,7 +52,7 @@ The entire product thesis is **calm**: nothing blocks, nothing nags, nothing spi
 - Views depend on ViewModels. ViewModels depend on *protocols* (`FlashcardRepository`, `FlashcardGenerating`), never concretions.
 - The AI layer emits **domain structs** (`Flashcard`), never Core Data objects.
 - The data layer maps `NSManagedObject ⇄ Flashcard` and exposes only `Sendable` value types across actor boundaries. `NSManagedObject` never leaves the repository.
-- `FoundationModels` types are imported **only** inside `RecallKit/AI`. `CoreData` is imported **only** inside `RecallKit/Data`. Grep for violations.
+- `FoundationModels` types are imported **only** inside `etchKit/AI`. `CoreData` is imported **only** inside `etchKit/Data`. Grep for violations.
 
 ---
 
@@ -61,10 +61,10 @@ The entire product thesis is **calm**: nothing blocks, nothing nags, nothing spi
 Create exactly this tree. Paths are referenced elsewhere in the doc.
 
 ```
-Recall/
-├─ Recall.xcodeproj
-├─ Recall/                          # app target
-│  ├─ RecallApp.swift               # @main, DI container, root scene
+etch/
+├─ etch.xcodeproj
+├─ etch/                          # app target
+│  ├─ etchApp.swift               # @main, DI container, root scene
 │  ├─ AppContainer.swift            # dependency container
 │  ├─ RootView.swift                # TabView / NavigationStack host
 │  ├─ Features/
@@ -86,11 +86,11 @@ Recall/
 │  │     └─ GradeBar.swift
 │  ├─ Resources/
 │  │  ├─ Assets.xcassets            # color sets (see §6)
-│  │  └─ Recall.xcdatamodeld        # Core Data model
-│  └─ Recall.entitlements
-├─ RecallKit/                       # local SPM package
+│  │  └─ etch.xcdatamodeld        # Core Data model
+│  └─ etch.entitlements
+├─ etchKit/                       # local SPM package
 │  ├─ Package.swift
-│  └─ Sources/RecallKit/
+│  └─ Sources/etchKit/
 │     ├─ AI/
 │     │  ├─ FlashcardGenerating.swift
 │     │  ├─ FlashcardGenerator.swift
@@ -114,7 +114,7 @@ Recall/
 │           ├─ CalmButton.swift
 │           ├─ CardSurface.swift
 │           └─ ShimmerPlaceholder.swift
-└─ RecallTests/
+└─ etchTests/
    ├─ SchedulerTests.swift
    ├─ RepositoryTests.swift
    └─ GenerationMappingTests.swift
@@ -124,7 +124,7 @@ Recall/
 
 ## 5. Data model (Core Data)
 
-`Recall.xcdatamodeld` — two entities, one-to-many, **lightweight migration enabled** (`shouldMigrateStoreAutomatically = true`, `shouldInferMappingModelAutomatically = true`).
+`etch.xcdatamodeld` — two entities, one-to-many, **lightweight migration enabled** (`shouldMigrateStoreAutomatically = true`, `shouldInferMappingModelAutomatically = true`).
 
 ### Entity: `CDDeck`
 | Attribute | Type | Notes |
@@ -151,7 +151,7 @@ Recall/
 | `lastReviewedAt` | Date | optional |
 | `deck` | To-one → `CDDeck` | inverse `cards` |
 
-> Set **codegen to "Manual/None"** for both entities and write the `NSManagedObject` subclasses by hand inside `RecallKit/Data`, OR keep "Class Definition" and never reference the classes outside the package. Manual is cleaner for Swift 6 because you control `Sendable` annotations and avoid the generated files leaking. Recommended: **Manual/None**, subclasses live next to the stack.
+> Set **codegen to "Manual/None"** for both entities and write the `NSManagedObject` subclasses by hand inside `etchKit/Data`, OR keep "Class Definition" and never reference the classes outside the package. Manual is cleaner for Swift 6 because you control `Sendable` annotations and avoid the generated files leaking. Recommended: **Manual/None**, subclasses live next to the stack.
 
 ---
 
@@ -226,7 +226,7 @@ Wrap `UIImpactFeedbackGenerator` / `UINotificationFeedbackGenerator`. Use **spar
 
 ## 7. AI layer — Foundation Models
 
-All code in this section lives in `RecallKit/Sources/RecallKit/AI`. This is the only place `import FoundationModels` appears.
+All code in this section lives in `etchKit/Sources/etchKit/AI`. This is the only place `import FoundationModels` appears.
 
 ### 7.1 Generation schema (`GeneratedSchema.swift`)
 
@@ -665,10 +665,10 @@ public enum SpacedRepetitionScheduler {
 
 Each phase is independently buildable and reviewable. Don't start a phase before the previous compiles and its tests pass.
 
-- [ ] **Phase 0 — Scaffold.** Create Xcode project (iOS 26 target, Swift 6 strict concurrency), the `RecallKit` local package, the folder tree from §4, and wire the package into the app. App launches to an empty `RootView`. Add the (empty-network) entitlements file.
+- [ ] **Phase 0 — Scaffold.** Create Xcode project (iOS 26 target, Swift 6 strict concurrency), the `etchKit` local package, the folder tree from §4, and wire the package into the app. App launches to an empty `RootView`. Add the (empty-network) entitlements file.
 - [ ] **Phase 1 — Design system.** `Theme`, `Motion`, `Haptics`, color sets in the asset catalog (light+dark), and the three components (`CardSurface`, `CalmButton`, `ShimmerPlaceholder`). Build a `#Preview` gallery screen to eyeball calm. Verify dark mode + Dynamic Type + Reduce Motion in previews.
 - [ ] **Phase 2 — Domain + Scheduler.** `Flashcard`, `Deck`, `ReviewGrade`, `ReviewState`, `SpacedRepetitionScheduler`. **Write `SchedulerTests` first** and make them pass. Pure code, no UI.
-- [ ] **Phase 3 — Core Data.** `Recall.xcdatamodeld` (§5), `NSManagedObject` subclasses (Manual/None codegen), `CoreDataStack` (with in-memory variant for tests), `FlashcardRepository` protocol, `CoreDataFlashcardRepository`, `Mapping`. `RepositoryTests` against an in-memory store: create deck, fetch, update review state, delete (cascade). Background-context writes verified.
+- [ ] **Phase 3 — Core Data.** `etch.xcdatamodeld` (§5), `NSManagedObject` subclasses (Manual/None codegen), `CoreDataStack` (with in-memory variant for tests), `FlashcardRepository` protocol, `CoreDataFlashcardRepository`, `Mapping`. `RepositoryTests` against an in-memory store: create deck, fetch, update review state, delete (cascade). Background-context writes verified.
 - [ ] **Phase 4 — AI layer.** `GeneratedSchema` (`@Generable`), `GenerationError`, `FlashcardGenerating`, `FlashcardGenerator`. **Confirm every Foundation Models symbol against the installed SDK** (see §7.4 note) and replace placeholder error-mapping/final-snapshot code with real implementations. Add a `MockGenerator` (scripted `AsyncThrowingStream`) for previews/tests so the rest of the app builds without a capable device. `GenerationMappingTests` verify partial→domain mapping with the mock.
 - [ ] **Phase 5 — Generate feature.** `GenerateViewModel` (inject `MockGenerator` in previews, real one in app), `GenerateView`, `TopicField`. Streaming UI with skeletons → staggered real cards → persist on completion. Handle all §11 states. Verify on a real Apple-Intelligence device.
 - [ ] **Phase 6 — Decks feature.** `DecksViewModel`, `DecksView`, `DeckRow`, due badges, swipe-delete, empty state. Backed by repository observation.

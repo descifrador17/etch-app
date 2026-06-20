@@ -25,7 +25,7 @@ deck row and the deck detail header.
 
 ## 3. Domain — `Difficulty`
 
-New file `RecallKit/Sources/RecallKit/Domain/Difficulty.swift`:
+New file `etchKit/Sources/etchKit/Domain/Difficulty.swift`:
 
 ```swift
 public enum Difficulty: String, CaseIterable, Sendable {
@@ -96,7 +96,7 @@ Additive, lightweight-migration-safe (the stack already enables
 
 ## 7. Testing
 
-- New `RecallKit` tests:
+- New `etchKit` tests:
   - Repository: `createDeck(..., difficulty: .hard, ...)` round-trips — the
     fetched/returned deck has `.hard`.
   - Mapping: a `CDDeck` with an unknown/garbage `difficulty` string maps to
@@ -105,7 +105,7 @@ Additive, lightweight-migration-safe (the stack already enables
     streams the sample deck.
 - Update existing call sites to the new signatures: `RepositoryTests`,
   generation/mapping tests, and `GenerateViewModel`.
-- Re-run app build, `RecallKit` unit tests, and the `GenerateFlowUITests` E2E. The
+- Re-run app build, `etchKit` unit tests, and the `GenerateFlowUITests` E2E. The
   UI test uses the default (`medium`) selection, so the flow stays green; if the
   difficulty selector intercepts a tap, give the selector items accessibility
   identifiers and/or leave the default untouched so the test path is unaffected.

@@ -6,7 +6,7 @@
 
 **Architecture:** Add a `Difficulty` domain enum + a `Deck.difficulty` field, thread it through generation (`streamDeck`) and persistence (`createDeck`, a new additive Core Data attribute), surface a bracketed selector on the Create screen, and display a colored tag on the deck row and detail. Generation difference is prompt-only (card count unchanged).
 
-**Tech Stack:** SwiftUI (iOS 26), Swift 6 strict concurrency, RecallKit SPM package, FoundationModels, Core Data (programmatic model, lightweight migration), Swift Testing.
+**Tech Stack:** SwiftUI (iOS 26), Swift 6 strict concurrency, etchKit SPM package, FoundationModels, Core Data (programmatic model, lightweight migration), Swift Testing.
 
 ## Global Constraints
 
@@ -15,23 +15,23 @@
 - Levels: `easy`, `medium`, `hard`, `ultra` (a `String`-raw enum; raw value is the persistence form).
 - Existing decks with no stored difficulty must load as `medium` (no crash, no manual migration model).
 - Concrete `createDeck` / `streamDeck` get a `difficulty: Difficulty = .medium` default so existing call sites/tests compile unchanged; ViewModels call through the protocol existential and pass difficulty explicitly.
-- New files are RecallKit sources/tests (SPM auto-included) or private views inside existing app files — **no `ruby scripts/generate_project.rb` needed**.
+- New files are etchKit sources/tests (SPM auto-included) or private views inside existing app files — **no `ruby scripts/generate_project.rb` needed**.
 - Swift 6 strict concurrency; `@MainActor` protocols unchanged. No networking.
 - Color mapping reuses existing `Theme.Palette.grade*` tokens: easy→`gradeEasy` (green), medium→`gradeGood` (yellow), hard→`gradeHard` (orange), ultra→`gradeAgain` (red).
 - Build gate (repo root):
-  `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
-- Unit tests (from `RecallKit/`):
-  `xcodebuild test -scheme RecallKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`
+  `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+- Unit tests (from `etchKit/`):
+  `xcodebuild test -scheme etchKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`
 
 ---
 
 ### Task 1: `Difficulty` domain type, `Deck` field, and style mapping
 
 **Files:**
-- Create: `RecallKit/Sources/RecallKit/Domain/Difficulty.swift`
-- Create: `RecallKit/Sources/RecallKit/Design/DifficultyStyle.swift`
-- Modify: `RecallKit/Sources/RecallKit/Domain/Deck.swift`
-- Test: `RecallKit/Tests/RecallKitTests/DifficultyTests.swift`
+- Create: `etchKit/Sources/etchKit/Domain/Difficulty.swift`
+- Create: `etchKit/Sources/etchKit/Design/DifficultyStyle.swift`
+- Modify: `etchKit/Sources/etchKit/Domain/Deck.swift`
+- Test: `etchKit/Tests/etchKitTests/DifficultyTests.swift`
 
 **Interfaces:**
 - Produces:
@@ -41,11 +41,11 @@
 
 - [ ] **Step 1: Write the failing test**
 
-Create `RecallKit/Tests/RecallKitTests/DifficultyTests.swift`:
+Create `etchKit/Tests/etchKitTests/DifficultyTests.swift`:
 
 ```swift
 import Testing
-@testable import RecallKit
+@testable import etchKit
 
 @Suite("Difficulty")
 struct DifficultyTests {
@@ -66,12 +66,12 @@ struct DifficultyTests {
 
 - [ ] **Step 2: Run the test to verify it fails**
 
-Run: `cd RecallKit && xcodebuild test -scheme RecallKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:RecallKitTests/DifficultyTests`
+Run: `cd etchKit && xcodebuild test -scheme etchKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:etchKitTests/DifficultyTests`
 Expected: FAIL to compile — `Difficulty` not found / `Deck` has no `difficulty`.
 
 - [ ] **Step 3: Create the `Difficulty` enum**
 
-Create `RecallKit/Sources/RecallKit/Domain/Difficulty.swift`:
+Create `etchKit/Sources/etchKit/Domain/Difficulty.swift`:
 
 ```swift
 import Foundation
@@ -89,7 +89,7 @@ public enum Difficulty: String, CaseIterable, Sendable {
 
 - [ ] **Step 4: Add the `difficulty` field to `Deck`**
 
-In `RecallKit/Sources/RecallKit/Domain/Deck.swift`, add the stored property and initializer parameter (default `.medium`, placed before `cards`):
+In `etchKit/Sources/etchKit/Domain/Deck.swift`, add the stored property and initializer parameter (default `.medium`, placed before `cards`):
 
 ```swift
 public struct Deck: Identifiable, Hashable, Sendable {
@@ -125,7 +125,7 @@ public struct Deck: Identifiable, Hashable, Sendable {
 
 - [ ] **Step 5: Create the style mapping**
 
-Create `RecallKit/Sources/RecallKit/Design/DifficultyStyle.swift`:
+Create `etchKit/Sources/etchKit/Design/DifficultyStyle.swift`:
 
 ```swift
 import SwiftUI
@@ -155,13 +155,13 @@ public extension Difficulty {
 
 - [ ] **Step 6: Run the test to verify it passes**
 
-Run: `cd RecallKit && xcodebuild test -scheme RecallKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:RecallKitTests/DifficultyTests`
+Run: `cd etchKit && xcodebuild test -scheme etchKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:etchKitTests/DifficultyTests`
 Expected: PASS (2 tests).
 
 - [ ] **Step 7: Commit**
 
 ```bash
-git add RecallKit/Sources/RecallKit/Domain/Difficulty.swift RecallKit/Sources/RecallKit/Design/DifficultyStyle.swift RecallKit/Sources/RecallKit/Domain/Deck.swift RecallKit/Tests/RecallKitTests/DifficultyTests.swift
+git add etchKit/Sources/etchKit/Domain/Difficulty.swift etchKit/Sources/etchKit/Design/DifficultyStyle.swift etchKit/Sources/etchKit/Domain/Deck.swift etchKit/Tests/etchKitTests/DifficultyTests.swift
 git commit -m "feat: Difficulty domain type, Deck field, and style mapping"
 ```
 
@@ -170,14 +170,14 @@ git commit -m "feat: Difficulty domain type, Deck field, and style mapping"
 ### Task 2: Persist difficulty + wire the Create-screen selector
 
 **Files:**
-- Modify: `RecallKit/Sources/RecallKit/Data/CoreDataStack.swift` (add attribute)
-- Modify: `RecallKit/Sources/RecallKit/Data/CDDeck.swift` (add `@NSManaged`)
-- Modify: `RecallKit/Sources/RecallKit/Data/Mapping.swift` (map difficulty)
-- Modify: `RecallKit/Sources/RecallKit/Data/FlashcardRepository.swift` (protocol signature)
-- Modify: `RecallKit/Sources/RecallKit/Data/CoreDataFlashcardRepository.swift` (impl)
-- Modify: `Recall/Recall/Features/Generate/GenerateViewModel.swift`
-- Modify: `Recall/Recall/Features/Generate/GenerateView.swift`
-- Test: `RecallKit/Tests/RecallKitTests/RepositoryTests.swift`
+- Modify: `etchKit/Sources/etchKit/Data/CoreDataStack.swift` (add attribute)
+- Modify: `etchKit/Sources/etchKit/Data/CDDeck.swift` (add `@NSManaged`)
+- Modify: `etchKit/Sources/etchKit/Data/Mapping.swift` (map difficulty)
+- Modify: `etchKit/Sources/etchKit/Data/FlashcardRepository.swift` (protocol signature)
+- Modify: `etchKit/Sources/etchKit/Data/CoreDataFlashcardRepository.swift` (impl)
+- Modify: `etch/etch/Features/Generate/GenerateViewModel.swift`
+- Modify: `etch/etch/Features/Generate/GenerateView.swift`
+- Test: `etchKit/Tests/etchKitTests/RepositoryTests.swift`
 
 **Interfaces:**
 - Consumes: `Difficulty`, `Deck.difficulty` (Task 1).
@@ -188,7 +188,7 @@ git commit -m "feat: Difficulty domain type, Deck field, and style mapping"
 
 - [ ] **Step 1: Write the failing tests**
 
-Append to `RecallKit/Tests/RecallKitTests/RepositoryTests.swift` (inside the struct), and add `import CoreData` at the top of the file (after `import Foundation`):
+Append to `etchKit/Tests/etchKitTests/RepositoryTests.swift` (inside the struct), and add `import CoreData` at the top of the file (after `import Foundation`):
 
 ```swift
     @Test("Create persists the chosen difficulty")
@@ -229,12 +229,12 @@ Append to `RecallKit/Tests/RecallKitTests/RepositoryTests.swift` (inside the str
 
 - [ ] **Step 2: Run the tests to verify they fail**
 
-Run: `cd RecallKit && xcodebuild test -scheme RecallKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:RecallKitTests/CoreDataFlashcardRepository`
+Run: `cd etchKit && xcodebuild test -scheme etchKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:etchKitTests/CoreDataFlashcardRepository`
 Expected: FAIL to compile — `createDeck` has no `difficulty:` label; `CDDeck` has no `difficulty`.
 
 - [ ] **Step 3: Add the Core Data attribute**
 
-In `RecallKit/Sources/RecallKit/Data/CoreDataStack.swift`, add a `difficulty` attribute to the deck properties array:
+In `etchKit/Sources/etchKit/Data/CoreDataStack.swift`, add a `difficulty` attribute to the deck properties array:
 
 ```swift
         // Deck attributes
@@ -249,7 +249,7 @@ In `RecallKit/Sources/RecallKit/Data/CoreDataStack.swift`, add a `difficulty` at
 
 - [ ] **Step 4: Add the managed property**
 
-In `RecallKit/Sources/RecallKit/Data/CDDeck.swift`, add inside the class:
+In `etchKit/Sources/etchKit/Data/CDDeck.swift`, add inside the class:
 
 ```swift
     @NSManaged var difficulty: String
@@ -257,7 +257,7 @@ In `RecallKit/Sources/RecallKit/Data/CDDeck.swift`, add inside the class:
 
 - [ ] **Step 5: Map the attribute to the domain**
 
-In `RecallKit/Sources/RecallKit/Data/Mapping.swift`, update `CDDeck.toDomain()`:
+In `etchKit/Sources/etchKit/Data/Mapping.swift`, update `CDDeck.toDomain()`:
 
 ```swift
 extension CDDeck {
@@ -279,13 +279,13 @@ extension CDDeck {
 
 - [ ] **Step 6: Update the repository protocol and implementation**
 
-In `RecallKit/Sources/RecallKit/Data/FlashcardRepository.swift`, change the requirement:
+In `etchKit/Sources/etchKit/Data/FlashcardRepository.swift`, change the requirement:
 
 ```swift
     func createDeck(topic: String, title: String, difficulty: Difficulty, cards: [Flashcard]) async throws -> Deck
 ```
 
-In `RecallKit/Sources/RecallKit/Data/CoreDataFlashcardRepository.swift`, update the method (note the `= .medium` default and setting the attribute on insert):
+In `etchKit/Sources/etchKit/Data/CoreDataFlashcardRepository.swift`, update the method (note the `= .medium` default and setting the attribute on insert):
 
 ```swift
     public func createDeck(topic: String, title: String, difficulty: Difficulty = .medium, cards: [Flashcard]) async throws -> Deck {
@@ -316,7 +316,7 @@ In `RecallKit/Sources/RecallKit/Data/CoreDataFlashcardRepository.swift`, update 
 
 - [ ] **Step 7: Thread difficulty through the ViewModel**
 
-In `Recall/Recall/Features/Generate/GenerateViewModel.swift`, change `generate(topic:)` to accept difficulty and pass it to `createDeck` (the `streamDeck` call stays topic-only until Task 3):
+In `etch/etch/Features/Generate/GenerateViewModel.swift`, change `generate(topic:)` to accept difficulty and pass it to `createDeck` (the `streamDeck` call stays topic-only until Task 3):
 
 ```swift
     func generate(topic: String, difficulty: Difficulty) {
@@ -361,7 +361,7 @@ In `Recall/Recall/Features/Generate/GenerateViewModel.swift`, change `generate(t
 
 - [ ] **Step 8: Add the selector to the Create screen**
 
-In `Recall/Recall/Features/Generate/GenerateView.swift`:
+In `etch/etch/Features/Generate/GenerateView.swift`:
 
 (a) Add state next to `@State private var topic = ""`:
 
@@ -445,16 +445,16 @@ private struct DifficultyPicker: View {
 
 - [ ] **Step 9: Run the unit tests + build**
 
-Run: `cd RecallKit && xcodebuild test -scheme RecallKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:RecallKitTests/CoreDataFlashcardRepository`
+Run: `cd etchKit && xcodebuild test -scheme etchKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:etchKitTests/CoreDataFlashcardRepository`
 Expected: PASS (existing + 3 new tests).
 
-Run (repo root): `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run (repo root): `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`.
 
 - [ ] **Step 10: Commit**
 
 ```bash
-git add RecallKit/Sources/RecallKit/Data Recall/Recall/Features/Generate/GenerateViewModel.swift Recall/Recall/Features/Generate/GenerateView.swift RecallKit/Tests/RecallKitTests/RepositoryTests.swift
+git add etchKit/Sources/etchKit/Data etch/etch/Features/Generate/GenerateViewModel.swift etch/etch/Features/Generate/GenerateView.swift etchKit/Tests/etchKitTests/RepositoryTests.swift
 git commit -m "feat: persist deck difficulty and add Create-screen selector"
 ```
 
@@ -463,11 +463,11 @@ git commit -m "feat: persist deck difficulty and add Create-screen selector"
 ### Task 3: Vary the generation prompt by difficulty
 
 **Files:**
-- Modify: `RecallKit/Sources/RecallKit/AI/FlashcardGenerating.swift` (protocol signature)
-- Modify: `RecallKit/Sources/RecallKit/AI/FlashcardGenerator.swift` (per-level prompt)
-- Modify: `RecallKit/Sources/RecallKit/AI/MockGenerator.swift` (accept param)
-- Modify: `Recall/Recall/Features/Generate/GenerateViewModel.swift` (pass to streamDeck)
-- Test: `RecallKit/Tests/RecallKitTests/GenerationMappingTests.swift`
+- Modify: `etchKit/Sources/etchKit/AI/FlashcardGenerating.swift` (protocol signature)
+- Modify: `etchKit/Sources/etchKit/AI/FlashcardGenerator.swift` (per-level prompt)
+- Modify: `etchKit/Sources/etchKit/AI/MockGenerator.swift` (accept param)
+- Modify: `etch/etch/Features/Generate/GenerateViewModel.swift` (pass to streamDeck)
+- Test: `etchKit/Tests/etchKitTests/GenerationMappingTests.swift`
 
 **Interfaces:**
 - Consumes: `Difficulty` (Task 1).
@@ -476,7 +476,7 @@ git commit -m "feat: persist deck difficulty and add Create-screen selector"
 
 - [ ] **Step 1: Write the failing test**
 
-Append to `RecallKit/Tests/RecallKitTests/GenerationMappingTests.swift` (inside the struct):
+Append to `etchKit/Tests/etchKitTests/GenerationMappingTests.swift` (inside the struct):
 
 ```swift
     @Test("Mock accepts a difficulty and still streams the sample deck")
@@ -496,12 +496,12 @@ Append to `RecallKit/Tests/RecallKitTests/GenerationMappingTests.swift` (inside 
 
 - [ ] **Step 2: Run the test to verify it fails**
 
-Run: `cd RecallKit && xcodebuild test -scheme RecallKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:RecallKitTests/GenerationMappingTests`
+Run: `cd etchKit && xcodebuild test -scheme etchKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:etchKitTests/GenerationMappingTests`
 Expected: FAIL to compile — `streamDeck` has no `difficulty:` label.
 
 - [ ] **Step 3: Update the protocol**
 
-In `RecallKit/Sources/RecallKit/AI/FlashcardGenerating.swift`, change the requirement:
+In `etchKit/Sources/etchKit/AI/FlashcardGenerating.swift`, change the requirement:
 
 ```swift
     /// Streams progressively-more-complete deck snapshots. The final value is
@@ -511,7 +511,7 @@ In `RecallKit/Sources/RecallKit/AI/FlashcardGenerating.swift`, change the requir
 
 - [ ] **Step 4: Update the real generator with per-level prompts**
 
-In `RecallKit/Sources/RecallKit/AI/FlashcardGenerator.swift`:
+In `etchKit/Sources/etchKit/AI/FlashcardGenerator.swift`:
 
 (a) Change the signature and the two internal references (`Self.instructions` → `Self.instructions(for: difficulty)`, `Self.prompt(for: trimmed)` → `Self.prompt(for: trimmed, difficulty: difficulty)`):
 
@@ -606,7 +606,7 @@ In `RecallKit/Sources/RecallKit/AI/FlashcardGenerator.swift`:
 
 - [ ] **Step 5: Update the mock generator**
 
-In `RecallKit/Sources/RecallKit/AI/MockGenerator.swift`, change the signature only (body unchanged — difficulty is ignored for deterministic content):
+In `etchKit/Sources/etchKit/AI/MockGenerator.swift`, change the signature only (body unchanged — difficulty is ignored for deterministic content):
 
 ```swift
     public func streamDeck(topic: String, difficulty: Difficulty = .medium) -> AsyncThrowingStream<DeckSnapshot, Error> {
@@ -614,7 +614,7 @@ In `RecallKit/Sources/RecallKit/AI/MockGenerator.swift`, change the signature on
 
 - [ ] **Step 6: Pass difficulty into streamDeck from the ViewModel**
 
-In `Recall/Recall/Features/Generate/GenerateViewModel.swift`, update the stream call inside `generate(topic:difficulty:)`:
+In `etch/etch/Features/Generate/GenerateViewModel.swift`, update the stream call inside `generate(topic:difficulty:)`:
 
 ```swift
                 for try await snapshot in generator.streamDeck(topic: trimmed, difficulty: difficulty) {
@@ -622,16 +622,16 @@ In `Recall/Recall/Features/Generate/GenerateViewModel.swift`, update the stream 
 
 - [ ] **Step 7: Run the unit tests + build**
 
-Run: `cd RecallKit && xcodebuild test -scheme RecallKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:RecallKitTests/GenerationMappingTests`
+Run: `cd etchKit && xcodebuild test -scheme etchKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:etchKitTests/GenerationMappingTests`
 Expected: PASS (existing + 1 new test).
 
-Run (repo root): `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run (repo root): `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`.
 
 - [ ] **Step 8: Commit**
 
 ```bash
-git add RecallKit/Sources/RecallKit/AI Recall/Recall/Features/Generate/GenerateViewModel.swift RecallKit/Tests/RecallKitTests/GenerationMappingTests.swift
+git add etchKit/Sources/etchKit/AI etch/etch/Features/Generate/GenerateViewModel.swift etchKit/Tests/etchKitTests/GenerationMappingTests.swift
 git commit -m "feat: vary generation prompt by difficulty level"
 ```
 
@@ -640,15 +640,15 @@ git commit -m "feat: vary generation prompt by difficulty level"
 ### Task 4: Display the difficulty tag on row + detail
 
 **Files:**
-- Modify: `Recall/Recall/Features/Decks/DeckRow.swift`
-- Modify: `Recall/Recall/Features/Review/DeckDetailView.swift`
+- Modify: `etch/etch/Features/Decks/DeckRow.swift`
+- Modify: `etch/etch/Features/Review/DeckDetailView.swift`
 
 **Interfaces:**
 - Consumes: `Deck.difficulty`, `Difficulty.label`, `Difficulty.tint` (Tasks 1–2).
 
 - [ ] **Step 1: Add the tag to `DeckRow`**
 
-In `Recall/Recall/Features/Decks/DeckRow.swift`, update the inner `VStack` to add a difficulty tag beneath the card count, and extend the accessibility label:
+In `etch/etch/Features/Decks/DeckRow.swift`, update the inner `VStack` to add a difficulty tag beneath the card count, and extend the accessibility label:
 
 ```swift
                 VStack(alignment: .leading, spacing: Theme.Spacing.xs) {
@@ -680,7 +680,7 @@ And update the `accessibilityLabel` modifier to include difficulty:
 
 - [ ] **Step 2: Add the tag to `DeckDetailView`**
 
-In `Recall/Recall/Features/Review/DeckDetailView.swift`, in the `content(_:)` `VStack`, add a difficulty tag row above the study button (as the first child of the `VStack`):
+In `etch/etch/Features/Review/DeckDetailView.swift`, in the `content(_:)` `VStack`, add a difficulty tag row above the study button (as the first child of the `VStack`):
 
 ```swift
             VStack(spacing: Theme.Spacing.interCard) {
@@ -706,13 +706,13 @@ In `Recall/Recall/Features/Review/DeckDetailView.swift`, in the `content(_:)` `V
 
 - [ ] **Step 3: Build to verify**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`.
 
 - [ ] **Step 4: Commit**
 
 ```bash
-git add Recall/Recall/Features/Decks/DeckRow.swift Recall/Recall/Features/Review/DeckDetailView.swift
+git add etch/etch/Features/Decks/DeckRow.swift etch/etch/Features/Review/DeckDetailView.swift
 git commit -m "feat: show difficulty tag on deck row and detail"
 ```
 
@@ -724,17 +724,17 @@ git commit -m "feat: show difficulty tag on deck row and detail"
 
 - [ ] **Step 1: Clean build**
 
-Run: `xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
+Run: `xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build`
 Expected: `** BUILD SUCCEEDED **`.
 
-- [ ] **Step 2: Full RecallKit test suite**
+- [ ] **Step 2: Full etchKit test suite**
 
-Run: `cd RecallKit && xcodebuild test -scheme RecallKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`
+Run: `cd etchKit && xcodebuild test -scheme etchKit -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`
 Expected: `** TEST SUCCEEDED **` (all suites, including the new Difficulty/repository/generation tests).
 
 - [ ] **Step 3: UI happy-path E2E**
 
-Run: `xcodebuild test -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:RecallUITests/GenerateFlowUITests`
+Run: `xcodebuild test -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:etchUITests/GenerateFlowUITests`
 Expected: `** TEST SUCCEEDED **`. The flow leaves the selector at the default (`medium`), so the create path is unaffected; the new `difficulty-*` buttons carry accessibility identifiers and do not collide with `topicField` / `createDeckButton`.
 
 - [ ] **Step 4: Visual smoke check**
@@ -742,9 +742,9 @@ Expected: `** TEST SUCCEEDED **`. The flow leaves the selector at the default (`
 Install + launch in the iPhone 17 Pro simulator, screenshot the Create screen (selector visible, `medium` active) and a deck row/detail (colored difficulty tag). Confirm dark/monospace styling holds.
 
 ```bash
-APP="$(xcodebuild -project Recall/Recall.xcodeproj -scheme Recall -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -showBuildSettings 2>/dev/null | awk -F' = ' '/ BUILT_PRODUCTS_DIR /{d=$2} / FULL_PRODUCT_NAME /{n=$2} END{print d"/"n}')"
+APP="$(xcodebuild -project etch/etch.xcodeproj -scheme etch -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -showBuildSettings 2>/dev/null | awk -F' = ' '/ BUILT_PRODUCTS_DIR /{d=$2} / FULL_PRODUCT_NAME /{n=$2} END{print d"/"n}')"
 xcrun simctl install "iPhone 17 Pro" "$APP"
-xcrun simctl launch "iPhone 17 Pro" com.descifrador.recall
+xcrun simctl launch "iPhone 17 Pro" com.descifrador.etch
 ```
 
 ---

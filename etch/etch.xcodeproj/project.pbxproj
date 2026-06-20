@@ -1,0 +1,558 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		110E22E29B3D9CFD950C59AA /* etchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F56756E91F9A074A4DC1C /* etchApp.swift */; };
+		1671A05BE19A0EF618D66722 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C9C233CE82FF618D6C64A8 /* RootView.swift */; };
+		1D8F0BE5728307DE00BA88A9 /* DeckDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574BFF069A08D2D7EC9E3976 /* DeckDetailView.swift */; };
+		23E524C3A5B7CA701B29DC26 /* GenerateFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E10D4D3ECE0624FA74A313 /* GenerateFlowUITests.swift */; };
+		2B13AD464B2B6A3F5E4A8518 /* GeneratingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A281CA824133BB8634F023 /* GeneratingView.swift */; };
+		3E675236F2A25138B7CEFBC6 /* GenerateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86556822EBC058F5148640F /* GenerateViewModel.swift */; };
+		3E6F990E6AB1403022639EE3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9273406A21ABCB68971F0B1 /* Foundation.framework */; };
+		54B33AB3E2EF054A813A1F19 /* DecksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F9524098A86B4617706579 /* DecksViewModel.swift */; };
+		67BB01366500F04D54F8EFBC /* DeckRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C0E4FF47AC369DFA0411AD /* DeckRow.swift */; };
+		7DCE0587E667AD8F6A7A9CCA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 862D9AB9029D12E21A79F50B /* Assets.xcassets */; };
+		89DF4009292ADF06E4404516 /* GradeBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07C37775A8785BF181532DA /* GradeBar.swift */; };
+		9169CA3D2EA817CBBE649269 /* etchKit in Frameworks */ = {isa = PBXBuildFile; productRef = 938B70C5E6C5991B95B973B4 /* etchKit */; };
+		934077014F6EA5C847001480 /* GenerateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7042FFB05B61E43E52857FEA /* GenerateView.swift */; };
+		942D56A6EA820AD328765632 /* DeckDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55407B3611FB218CF6761B27 /* DeckDetailViewModel.swift */; };
+		A7AF0C6FAA39749DA426F4B6 /* TopicField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147F54A9033933110042468E /* TopicField.swift */; };
+		B126D8C6F59B56E9816AC984 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9273406A21ABCB68971F0B1 /* Foundation.framework */; };
+		B8EE5CB67C4C74B15038768C /* DecksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25F1BEF4941589B478D5E2 /* DecksView.swift */; };
+		C9B814D4BA25B0C72B0D18A7 /* StudyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D6702C9AC4EEAD8B6A2415 /* StudyViewModel.swift */; };
+		D4FEEA7A0E4BF791DC267E42 /* FlashcardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABA970AC1099DE520EDC52D /* FlashcardView.swift */; };
+		E9A6B3AAD02F50D0CAD6E012 /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC8D5056628DED6FBBC3257 /* AppContainer.swift */; };
+		EF97503C30216E659F5D9B87 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB63C73E0CCB71C645EC72 /* StudyView.swift */; };
+		FC5AE32D5EF3202BFA32B30D /* GenerateStateViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C34E51DC0A69C56CCB1827 /* GenerateStateViews.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E662030BEA82F6646A847276 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AE609AA5254506126E2DC097 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1C1C6AA62DCF8A732AB4D137;
+			remoteInfo = etch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00F12FC88F84B88EB22EE713 /* etch.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = etch.entitlements; sourceTree = "<group>"; };
+		05E10D4D3ECE0624FA74A313 /* GenerateFlowUITests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GenerateFlowUITests.swift; sourceTree = "<group>"; };
+		0A25F1BEF4941589B478D5E2 /* DecksView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DecksView.swift; path = Features/Decks/DecksView.swift; sourceTree = "<group>"; };
+		0BE50533BA867974F4C258F7 /* etchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = etchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		147F54A9033933110042468E /* TopicField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TopicField.swift; path = Features/Generate/TopicField.swift; sourceTree = "<group>"; };
+		21C9C233CE82FF618D6C64A8 /* RootView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		523DA3368842EAFFA2ACC672 /* etch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = etch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		52A281CA824133BB8634F023 /* GeneratingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GeneratingView.swift; path = Features/Generate/GeneratingView.swift; sourceTree = "<group>"; };
+		55407B3611FB218CF6761B27 /* DeckDetailViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DeckDetailViewModel.swift; path = Features/Review/DeckDetailViewModel.swift; sourceTree = "<group>"; };
+		574BFF069A08D2D7EC9E3976 /* DeckDetailView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DeckDetailView.swift; path = Features/Review/DeckDetailView.swift; sourceTree = "<group>"; };
+		5B2F56756E91F9A074A4DC1C /* etchApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = etchApp.swift; sourceTree = "<group>"; };
+		7042FFB05B61E43E52857FEA /* GenerateView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GenerateView.swift; path = Features/Generate/GenerateView.swift; sourceTree = "<group>"; };
+		862D9AB9029D12E21A79F50B /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
+		8BCB63C73E0CCB71C645EC72 /* StudyView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StudyView.swift; path = Features/Study/StudyView.swift; sourceTree = "<group>"; };
+		A4F9524098A86B4617706579 /* DecksViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DecksViewModel.swift; path = Features/Decks/DecksViewModel.swift; sourceTree = "<group>"; };
+		A5D6702C9AC4EEAD8B6A2415 /* StudyViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StudyViewModel.swift; path = Features/Study/StudyViewModel.swift; sourceTree = "<group>"; };
+		A9C0E4FF47AC369DFA0411AD /* DeckRow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DeckRow.swift; path = Features/Decks/DeckRow.swift; sourceTree = "<group>"; };
+		ACC8D5056628DED6FBBC3257 /* AppContainer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
+		B86556822EBC058F5148640F /* GenerateViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GenerateViewModel.swift; path = Features/Generate/GenerateViewModel.swift; sourceTree = "<group>"; };
+		C07C37775A8785BF181532DA /* GradeBar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GradeBar.swift; path = Features/Study/GradeBar.swift; sourceTree = "<group>"; };
+		C9273406A21ABCB68971F0B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		EABA970AC1099DE520EDC52D /* FlashcardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FlashcardView.swift; path = Features/Review/FlashcardView.swift; sourceTree = "<group>"; };
+		F8C34E51DC0A69C56CCB1827 /* GenerateStateViews.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GenerateStateViews.swift; path = Features/Generate/GenerateStateViews.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0D4222652C74350C06148DC5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3E6F990E6AB1403022639EE3 /* Foundation.framework in Frameworks */,
+				9169CA3D2EA817CBBE649269 /* etchKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		17C3D04AC73D69F5097C4905 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B126D8C6F59B56E9816AC984 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2086C9A8CA79655DDC7E14CA = {
+			isa = PBXGroup;
+			children = (
+				6C3797D0CAB4E226E9F829B6 /* Products */,
+				AE440219F5D8D09685F64705 /* Frameworks */,
+				CDCC426B65E5BF579C720E04 /* etch */,
+				8F8805B57614C6498EEE1748 /* etchUITests */,
+			);
+			sourceTree = "<group>";
+		};
+		2A8716F81059A54307308AD4 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				C9273406A21ABCB68971F0B1 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		6C3797D0CAB4E226E9F829B6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				523DA3368842EAFFA2ACC672 /* etch.app */,
+				0BE50533BA867974F4C258F7 /* etchUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8F8805B57614C6498EEE1748 /* etchUITests */ = {
+			isa = PBXGroup;
+			children = (
+				05E10D4D3ECE0624FA74A313 /* GenerateFlowUITests.swift */,
+			);
+			name = etchUITests;
+			path = etchUITests;
+			sourceTree = "<group>";
+		};
+		AE440219F5D8D09685F64705 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2A8716F81059A54307308AD4 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CDCC426B65E5BF579C720E04 /* etch */ = {
+			isa = PBXGroup;
+			children = (
+				ACC8D5056628DED6FBBC3257 /* AppContainer.swift */,
+				A9C0E4FF47AC369DFA0411AD /* DeckRow.swift */,
+				0A25F1BEF4941589B478D5E2 /* DecksView.swift */,
+				A4F9524098A86B4617706579 /* DecksViewModel.swift */,
+				F8C34E51DC0A69C56CCB1827 /* GenerateStateViews.swift */,
+				7042FFB05B61E43E52857FEA /* GenerateView.swift */,
+				B86556822EBC058F5148640F /* GenerateViewModel.swift */,
+				52A281CA824133BB8634F023 /* GeneratingView.swift */,
+				147F54A9033933110042468E /* TopicField.swift */,
+				574BFF069A08D2D7EC9E3976 /* DeckDetailView.swift */,
+				55407B3611FB218CF6761B27 /* DeckDetailViewModel.swift */,
+				EABA970AC1099DE520EDC52D /* FlashcardView.swift */,
+				C07C37775A8785BF181532DA /* GradeBar.swift */,
+				8BCB63C73E0CCB71C645EC72 /* StudyView.swift */,
+				A5D6702C9AC4EEAD8B6A2415 /* StudyViewModel.swift */,
+				21C9C233CE82FF618D6C64A8 /* RootView.swift */,
+				5B2F56756E91F9A074A4DC1C /* etchApp.swift */,
+				862D9AB9029D12E21A79F50B /* Assets.xcassets */,
+				00F12FC88F84B88EB22EE713 /* etch.entitlements */,
+			);
+			name = etch;
+			path = etch;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1C1C6AA62DCF8A732AB4D137 /* etch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A994AB432922470F7BBC78F2 /* Build configuration list for PBXNativeTarget "etch" */;
+			buildPhases = (
+				6342B653E498C3DF7A6923B9 /* Sources */,
+				0D4222652C74350C06148DC5 /* Frameworks */,
+				B8197EC49E075E9B9AB8D4DB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = etch;
+			packageProductDependencies = (
+				938B70C5E6C5991B95B973B4 /* etchKit */,
+			);
+			productName = etch;
+			productReference = 523DA3368842EAFFA2ACC672 /* etch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8FD0105D86AD63F4C8DA2202 /* etchUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 181E85C30B6AEC71E0534108 /* Build configuration list for PBXNativeTarget "etchUITests" */;
+			buildPhases = (
+				1E55AF8B0A0109D28CA89392 /* Sources */,
+				17C3D04AC73D69F5097C4905 /* Frameworks */,
+				3767EE881A20AC36EC76C59F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D9B6976FF5CAC23B8734D2C7 /* PBXTargetDependency */,
+			);
+			name = etchUITests;
+			productName = etchUITests;
+			productReference = 0BE50533BA867974F4C258F7 /* etchUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AE609AA5254506126E2DC097 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = 7A25214727F00FA83A517A63 /* Build configuration list for PBXProject "etch" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2086C9A8CA79655DDC7E14CA;
+			minimizedProjectReferenceProxies = 0;
+			packageReferences = (
+				C09AB172AAF9ABD72857CBCF /* XCLocalSwiftPackageReference "etchKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 6C3797D0CAB4E226E9F829B6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1C1C6AA62DCF8A732AB4D137 /* etch */,
+				8FD0105D86AD63F4C8DA2202 /* etchUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3767EE881A20AC36EC76C59F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B8197EC49E075E9B9AB8D4DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DCE0587E667AD8F6A7A9CCA /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1E55AF8B0A0109D28CA89392 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23E524C3A5B7CA701B29DC26 /* GenerateFlowUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6342B653E498C3DF7A6923B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9A6B3AAD02F50D0CAD6E012 /* AppContainer.swift in Sources */,
+				67BB01366500F04D54F8EFBC /* DeckRow.swift in Sources */,
+				B8EE5CB67C4C74B15038768C /* DecksView.swift in Sources */,
+				54B33AB3E2EF054A813A1F19 /* DecksViewModel.swift in Sources */,
+				FC5AE32D5EF3202BFA32B30D /* GenerateStateViews.swift in Sources */,
+				934077014F6EA5C847001480 /* GenerateView.swift in Sources */,
+				3E675236F2A25138B7CEFBC6 /* GenerateViewModel.swift in Sources */,
+				2B13AD464B2B6A3F5E4A8518 /* GeneratingView.swift in Sources */,
+				A7AF0C6FAA39749DA426F4B6 /* TopicField.swift in Sources */,
+				1D8F0BE5728307DE00BA88A9 /* DeckDetailView.swift in Sources */,
+				942D56A6EA820AD328765632 /* DeckDetailViewModel.swift in Sources */,
+				D4FEEA7A0E4BF791DC267E42 /* FlashcardView.swift in Sources */,
+				89DF4009292ADF06E4404516 /* GradeBar.swift in Sources */,
+				EF97503C30216E659F5D9B87 /* StudyView.swift in Sources */,
+				C9B814D4BA25B0C72B0D18A7 /* StudyViewModel.swift in Sources */,
+				1671A05BE19A0EF618D66722 /* RootView.swift in Sources */,
+				110E22E29B3D9CFD950C59AA /* etchApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D9B6976FF5CAC23B8734D2C7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = etch;
+			target = 1C1C6AA62DCF8A732AB4D137 /* etch */;
+			targetProxy = E662030BEA82F6646A847276 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		52EB85681D2A11567532FCA3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		5C4964299F417C6DDC6D2C66 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_ENTITLEMENTS = etch/etch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				"INFOPLIST_KEY_UISupportedInterfaceOrientations~ipad" = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.descifrador.etch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_FLAGS = "";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		631C7321E26C82E7B83ADA06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGNING_ALLOWED = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.descifrador.etchUITests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = etch;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7A423CD06B9E1D504D5889FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_ENTITLEMENTS = etch/etch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				"INFOPLIST_KEY_UISupportedInterfaceOrientations~ipad" = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.descifrador.etch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_FLAGS = "";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A8F783105C915328B653E9D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		F0A655DA4A751DFC970070CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGNING_ALLOWED = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.descifrador.etchUITests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = etch;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		181E85C30B6AEC71E0534108 /* Build configuration list for PBXNativeTarget "etchUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				631C7321E26C82E7B83ADA06 /* Release */,
+				F0A655DA4A751DFC970070CC /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7A25214727F00FA83A517A63 /* Build configuration list for PBXProject "etch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8F783105C915328B653E9D6 /* Debug */,
+				52EB85681D2A11567532FCA3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A994AB432922470F7BBC78F2 /* Build configuration list for PBXNativeTarget "etch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A423CD06B9E1D504D5889FC /* Release */,
+				5C4964299F417C6DDC6D2C66 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		C09AB172AAF9ABD72857CBCF /* XCLocalSwiftPackageReference "etchKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../etchKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		938B70C5E6C5991B95B973B4 /* etchKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C09AB172AAF9ABD72857CBCF /* XCLocalSwiftPackageReference "etchKit" */;
+			productName = etchKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = AE609AA5254506126E2DC097 /* Project object */;
+}
