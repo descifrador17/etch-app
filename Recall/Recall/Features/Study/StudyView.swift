@@ -41,7 +41,7 @@ struct StudyView: View {
                     }
                     .transition(.opacity)
                 } else {
-                    Text("Tap the card to reveal")
+                    Text("tap the card to reveal")
                         .font(Theme.Typo.caption)
                         .foregroundStyle(Theme.Palette.inkSecondary)
                         .frame(height: 56)
@@ -62,8 +62,8 @@ struct StudyView: View {
                 Button {
                     dismiss()
                 } label: {
-                    Image(systemName: "xmark")
-                        .font(.body.weight(.medium))
+                    Text("[x]")
+                        .font(Theme.Typo.body)
                         .foregroundStyle(Theme.Palette.inkSecondary)
                 }
                 .accessibilityLabel("Close study session")
@@ -99,15 +99,16 @@ private struct StudyCard: View {
 
     private func face(text: String, kind: String, showing: Bool) -> some View {
         CardSurface {
-            VStack(spacing: Theme.Spacing.md) {
-                Text(kind.uppercased())
+            VStack(alignment: .leading, spacing: Theme.Spacing.md) {
+                Text("// \(kind.uppercased())")
                     .font(Theme.Typo.caption)
-                    .tracking(1.2)
                     .foregroundStyle(Theme.Palette.inkSecondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 Text(text)
                     .font(Theme.Typo.cardFace)
                     .foregroundStyle(Theme.Palette.ink)
-                    .multilineTextAlignment(.center)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .minimumScaleFactor(0.6)
                     .lineLimit(8)
             }
@@ -118,16 +119,16 @@ private struct StudyCard: View {
     }
 }
 
-/// Thin calm progress bar.
+/// Thin terminal progress bar — hairline track, ink fill, sharp corners.
 private struct ProgressBar: View {
     let progress: Double
 
     var body: some View {
         GeometryReader { geo in
             ZStack(alignment: .leading) {
-                Capsule().fill(Theme.Palette.hairline)
-                Capsule()
-                    .fill(Theme.Palette.accent)
+                Rectangle().fill(Theme.Palette.hairline)
+                Rectangle()
+                    .fill(Theme.Palette.ink)
                     .frame(width: max(0, min(1, progress)) * geo.size.width)
             }
         }
@@ -144,23 +145,23 @@ private struct SessionEndView: View {
     var body: some View {
         VStack(spacing: Theme.Spacing.md) {
             Spacer()
-            Image(systemName: "checkmark.seal")
-                .font(.system(size: 48, weight: .light))
-                .foregroundStyle(Theme.Palette.accent)
-            Text("Done for now")
+            Text("[x]")
+                .font(Theme.Typo.display)
+                .foregroundStyle(Theme.Palette.gradeEasy)
+            Text("done for now")
                 .font(Theme.Typo.title)
                 .foregroundStyle(Theme.Palette.ink)
             if let nextDue {
-                Text("Next review \(Self.relative(to: nextDue))")
+                Text("next review \(Self.relative(to: nextDue))")
                     .font(Theme.Typo.body)
                     .foregroundStyle(Theme.Palette.inkSecondary)
             } else {
-                Text("Nicely done.")
+                Text("nicely done.")
                     .font(Theme.Typo.body)
                     .foregroundStyle(Theme.Palette.inkSecondary)
             }
             Spacer()
-            CalmButton("Done", action: onDone)
+            CalmButton("done", action: onDone)
         }
     }
 
@@ -174,4 +175,5 @@ private struct SessionEndView: View {
 #Preview("Study") {
     StudyView(deck: Deck(topic: "Photosynthesis", title: "Photosynthesis", cards: MockGenerator.sampleCards))
         .environment(AppContainer())
+        .preferredColorScheme(.dark)
 }

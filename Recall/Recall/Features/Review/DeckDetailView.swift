@@ -34,7 +34,7 @@ struct DeckDetailView: View {
         ScrollView {
             VStack(spacing: Theme.Spacing.interCard) {
                 if viewModel.hasDue {
-                    CalmButton("Study \(viewModel.dueCount) due") {
+                    CalmButton("study \(viewModel.dueCount) due") {
                         studying = true
                     }
                     .padding(.bottom, Theme.Spacing.xs)
@@ -55,4 +55,5 @@ struct DeckDetailView: View {
         DeckDetailView(deck: Deck(topic: "Photosynthesis", title: "Photosynthesis", cards: MockGenerator.sampleCards))
     }
     .environment(AppContainer())
+    .preferredColorScheme(.dark)
 }

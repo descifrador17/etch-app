@@ -35,15 +35,16 @@ struct FlashcardView: View {
 
     private func face(text: String, kind: String, showing: Bool) -> some View {
         CardSurface {
-            VStack(spacing: Theme.Spacing.md) {
-                Text(kind.uppercased())
+            VStack(alignment: .leading, spacing: Theme.Spacing.md) {
+                Text("// \(kind.uppercased())")
                     .font(Theme.Typo.caption)
-                    .tracking(1.2)
                     .foregroundStyle(Theme.Palette.inkSecondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 Text(text)
                     .font(Theme.Typo.cardFace)
                     .foregroundStyle(Theme.Palette.ink)
-                    .multilineTextAlignment(.center)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .minimumScaleFactor(0.6)
                     .lineLimit(6)
             }
@@ -58,4 +59,5 @@ struct FlashcardView: View {
     FlashcardView(card: MockGenerator.sampleCards[0])
         .padding()
         .background(Theme.Palette.surface)
+        .preferredColorScheme(.dark)
 }
