@@ -1,7 +1,8 @@
 import SwiftUI
 import RecallKit
 
-/// The single centered input. Placeholder rotates gentle examples.
+/// The single prompt-style input. Placeholder rotates gentle lowercase examples
+/// behind a leading `> ` caret.
 struct TopicField: View {
     @Binding var topic: String
     var isEnabled: Bool
@@ -10,7 +11,7 @@ struct TopicField: View {
     @FocusState private var focused: Bool
     @State private var placeholderIndex = 0
 
-    private let placeholders = ["photosynthesis", "Combine operators", "WWII treaties", "Swift actors", "the Krebs cycle"]
+    private let placeholders = ["photosynthesis", "combine operators", "wwii treaties", "swift actors", "the krebs cycle"]
     private let rotation = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
 
     /// Topic length is clamped to ~80 chars per the generation tuning guard.
@@ -18,24 +19,28 @@ struct TopicField: View {
 
     var body: some View {
         CardSurface {
-            TextField(
-                "",
-                text: $topic,
-                prompt: Text(placeholders[placeholderIndex])
-                    .foregroundColor(Theme.Palette.inkSecondary)
-            )
-            .focused($focused)
-            .font(Theme.Typo.title)
-            .foregroundStyle(Theme.Palette.ink)
-            .multilineTextAlignment(.center)
-            .textInputAutocapitalization(.never)
-            .submitLabel(.go)
-            .accessibilityIdentifier("topicField")
-            .disabled(!isEnabled)
-            .onSubmit(onSubmit)
-            .onChange(of: topic) { _, newValue in
-                if newValue.count > maxLength {
-                    topic = String(newValue.prefix(maxLength))
+            HStack(spacing: Theme.Spacing.xs) {
+                Text(">")
+                    .font(Theme.Typo.body)
+                    .foregroundStyle(Theme.Palette.accent)
+                TextField(
+                    "",
+                    text: $topic,
+                    prompt: Text(placeholders[placeholderIndex])
+                        .foregroundColor(Theme.Palette.inkSecondary)
+                )
+                .focused($focused)
+                .font(Theme.Typo.body)
+                .foregroundStyle(Theme.Palette.ink)
+                .textInputAutocapitalization(.never)
+                .submitLabel(.go)
+                .accessibilityIdentifier("topicField")
+                .disabled(!isEnabled)
+                .onSubmit(onSubmit)
+                .onChange(of: topic) { _, newValue in
+                    if newValue.count > maxLength {
+                        topic = String(newValue.prefix(maxLength))
+                    }
                 }
             }
             .padding(Theme.Spacing.cardInner)

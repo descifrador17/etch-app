@@ -76,17 +76,17 @@ struct GenerateView: View {
     private func idle(_ viewModel: GenerateViewModel) -> some View {
         VStack(spacing: Theme.Spacing.section) {
             Spacer()
-            Text("What do you want to learn?")
+            Text("> what do you want to learn?")
                 .font(Theme.Typo.title)
                 .foregroundStyle(Theme.Palette.ink)
-                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
             TopicField(topic: $topic, isEnabled: true) {
                 viewModel.generate(topic: topic)
             }
 
             CalmButton(
-                "Create deck",
+                "create deck",
                 style: topic.trimmingCharacters(in: .whitespaces).isEmpty ? .quiet : .filled,
                 isEnabled: !topic.trimmingCharacters(in: .whitespaces).isEmpty
             ) {
@@ -102,4 +102,5 @@ struct GenerateView: View {
 #Preview("Generate — available") {
     GenerateView()
         .environment(AppContainer())
+        .preferredColorScheme(.dark)
 }
