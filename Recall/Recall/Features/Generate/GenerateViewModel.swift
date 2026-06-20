@@ -35,7 +35,7 @@ final class GenerateViewModel {
         generator.prewarm()
     }
 
-    func generate(topic: String) {
+    func generate(topic: String, difficulty: Difficulty) {
         let trimmed = topic.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
 
@@ -47,7 +47,7 @@ final class GenerateViewModel {
         task = Task {
             do {
                 var last = DeckSnapshot()
-                for try await snapshot in generator.streamDeck(topic: trimmed) {
+                for try await snapshot in generator.streamDeck(topic: trimmed, difficulty: difficulty) {
                     streamingTitle = snapshot.title ?? streamingTitle
                     streamingCards = snapshot.cards
                     last = snapshot
@@ -60,6 +60,7 @@ final class GenerateViewModel {
                 let deck = try await repository.createDeck(
                     topic: trimmed,
                     title: last.title ?? trimmed,
+                    difficulty: difficulty,
                     cards: last.cards
                 )
                 Haptics.success()

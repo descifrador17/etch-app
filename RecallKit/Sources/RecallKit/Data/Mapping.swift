@@ -43,6 +43,13 @@ extension CDDeck {
         let mapped = cards
             .map { $0.toDomain() }
             .sorted { $0.orderIndex < $1.orderIndex }
-        return Deck(id: id, topic: topic, title: title, createdAt: createdAt, cards: mapped)
+        return Deck(
+            id: id,
+            topic: topic,
+            title: title,
+            createdAt: createdAt,
+            difficulty: Difficulty(rawValue: difficulty) ?? .medium,
+            cards: mapped
+        )
     }
 }

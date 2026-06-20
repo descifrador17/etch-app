@@ -14,7 +14,7 @@ public protocol FlashcardGenerating: Sendable {
 
     /// Streams progressively-more-complete deck snapshots. The final value is
     /// the complete deck, marked `isComplete`.
-    func streamDeck(topic: String) -> AsyncThrowingStream<DeckSnapshot, Error>
+    func streamDeck(topic: String, difficulty: Difficulty) -> AsyncThrowingStream<DeckSnapshot, Error>
 }
 
 public enum GeneratorAvailability: Equatable, Sendable {

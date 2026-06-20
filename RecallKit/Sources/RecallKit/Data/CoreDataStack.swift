@@ -63,6 +63,7 @@ final class CoreDataStack {
             attribute("topic", .stringAttributeType),
             attribute("title", .stringAttributeType),
             attribute("createdAt", .dateAttributeType),
+            attribute("difficulty", .stringAttributeType, defaultValue: "medium"),
         ]
 
         // Card attributes

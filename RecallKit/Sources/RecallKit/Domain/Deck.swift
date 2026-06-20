@@ -6,6 +6,7 @@ public struct Deck: Identifiable, Hashable, Sendable {
     public var topic: String
     public var title: String
     public var createdAt: Date
+    public var difficulty: Difficulty
     public var cards: [Flashcard]
 
     public init(
@@ -13,12 +14,14 @@ public struct Deck: Identifiable, Hashable, Sendable {
         topic: String,
         title: String,
         createdAt: Date = .now,
+        difficulty: Difficulty = .medium,
         cards: [Flashcard]
     ) {
         self.id = id
         self.topic = topic
         self.title = title
         self.createdAt = createdAt
+        self.difficulty = difficulty
         self.cards = cards
     }
 

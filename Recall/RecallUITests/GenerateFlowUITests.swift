@@ -16,7 +16,7 @@ final class GenerateFlowUITests: XCTestCase {
         app.launch()
 
         // 1. Go to the Create tab.
-        app.buttons["Create"].firstMatch.tap()
+        app.buttons["create"].firstMatch.tap()
 
         // 2. Type a topic.
         let field = app.textFields["topicField"]
@@ -49,13 +49,13 @@ final class GenerateFlowUITests: XCTestCase {
         XCTAssertTrue(studyButton.waitForExistence(timeout: 5), "Study CTA should be present")
         studyButton.tap()
 
-        let revealHint = app.staticTexts["Tap the card to reveal"]
+        let revealHint = app.staticTexts["tap the card to reveal"]
         XCTAssertTrue(revealHint.waitForExistence(timeout: 5), "Study session should start on a card front")
         let studyCard = app.descendants(matching: .any)
             .matching(NSPredicate(format: "label BEGINSWITH[c] %@", "question.")).firstMatch
         studyCard.tap()
 
-        let goodButton = app.buttons["Good"]
+        let goodButton = app.buttons["good"]
         XCTAssertTrue(goodButton.waitForExistence(timeout: 5), "Grade bar should appear after revealing")
         attach(app, name: "05-study-graded")
         goodButton.tap()
@@ -66,7 +66,7 @@ final class GenerateFlowUITests: XCTestCase {
 
         // 6. Back out, confirm the deck persisted into the Decks list.
         app.navigationBars.buttons.element(boundBy: 0).tap()
-        app.buttons["Decks"].firstMatch.tap()
+        app.buttons["decks"].firstMatch.tap()
         let deckPredicate = NSPredicate(format: "label CONTAINS[c] %@", "photosynthesis")
         let deckCell = app.descendants(matching: .any).matching(deckPredicate).firstMatch
         XCTAssertTrue(deckCell.waitForExistence(timeout: 5), "The new deck should appear in Decks")

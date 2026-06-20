@@ -1,8 +1,9 @@
 import SwiftUI
 
-/// A full-width calm button. Two variants:
-/// - `.filled` — sage accent fill, the primary action.
-/// - `.quiet`  — inkSecondary text, no fill, for low-emphasis / disabled-feeling actions.
+/// A full-width terminal button. Two variants:
+/// - `.filled` — Apple-Blue fill, white mono label, the primary action.
+/// - `.quiet`  — transparent fill, mute label, hairline border, low-emphasis.
+/// Labels render bracketed, e.g. `[ create deck ]`.
 public struct CalmButton: View {
     public enum Style {
         case filled
@@ -33,39 +34,51 @@ public struct CalmButton: View {
             Haptics.softTap()
             action()
         } label: {
-            Text(title)
-                .font(Theme.Typo.body.weight(.semibold))
+            Text("[ \(title) ]")
+                .font(Theme.Typo.buttonLabel)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, Theme.Spacing.md)
                 .foregroundStyle(foreground)
-                .background(background)
-                .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.button, style: .continuous))
+                .background(
+                    RoundedRectangle(cornerRadius: Theme.Radius.button, style: .continuous)
+                        .fill(background)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: Theme.Radius.button, style: .continuous)
+                        .strokeBorder(border, lineWidth: 1)
+                )
         }
         .buttonStyle(.plain)
         .disabled(!isEnabled)
-        .scaleEffect(pressed ? 0.97 : 1)
+        .opacity(pressed ? 0.7 : (isEnabled ? 1 : 0.4))
         .animation(Motion.settle, value: pressed)
-        .opacity(isEnabled ? 1 : 0.55)
         .simultaneousGesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { _ in if isEnabled { pressed = true } }
                 .onEnded { _ in pressed = false }
         )
+        .accessibilityLabel(title)
         .accessibilityAddTraits(.isButton)
     }
 
     private var foreground: Color {
         switch style {
         case .filled: .white
-        case .quiet: Theme.Palette.inkSecondary
+        case .quiet:  Theme.Palette.inkSecondary
         }
     }
 
-    @ViewBuilder
-    private var background: some View {
+    private var background: Color {
         switch style {
         case .filled: Theme.Palette.accent
-        case .quiet: Color.clear
+        case .quiet:  .clear
+        }
+    }
+
+    private var border: Color {
+        switch style {
+        case .filled: .clear
+        case .quiet:  Theme.Palette.hairlineStrong
         }
     }
 }
@@ -74,9 +87,9 @@ public struct CalmButton: View {
     ZStack {
         Theme.Palette.surface.ignoresSafeArea()
         VStack(spacing: Theme.Spacing.md) {
-            CalmButton("Create deck") {}
-            CalmButton("Create deck", isEnabled: false) {}
-            CalmButton("Stop", style: .quiet) {}
+            CalmButton("create deck") {}
+            CalmButton("create deck", isEnabled: false) {}
+            CalmButton("stop", style: .quiet) {}
         }
         .padding()
     }

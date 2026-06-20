@@ -1,28 +1,31 @@
 import SwiftUI
 import RecallKit
 
-/// Four quiet grade buttons. No numbers shouting — just the four choices.
+/// Four bracketed grade buttons, each in its semantic color:
+/// again=red, hard=orange, good=yellow, easy=green.
 struct GradeBar: View {
     var onGrade: (ReviewGrade) -> Void
 
     var body: some View {
-        HStack(spacing: Theme.Spacing.sm) {
+        HStack(spacing: Theme.Spacing.xs) {
             ForEach(ReviewGrade.allCases, id: \.self) { grade in
                 Button {
                     onGrade(grade)
                 } label: {
-                    Text(label(for: grade))
-                        .font(Theme.Typo.body.weight(.medium))
+                    Text("[\(label(for: grade))]")
+                        .font(Theme.Typo.buttonLabel)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, Theme.Spacing.md)
-                        .foregroundStyle(Theme.Palette.ink)
+                        .foregroundStyle(color(for: grade))
                         .background(
                             RoundedRectangle(cornerRadius: Theme.Radius.button, style: .continuous)
-                                .fill(Theme.Palette.surfaceRaised)
+                                .fill(Color.clear)
                         )
                         .overlay(
                             RoundedRectangle(cornerRadius: Theme.Radius.button, style: .continuous)
-                                .strokeBorder(Theme.Palette.hairline, lineWidth: 1)
+                                .strokeBorder(color(for: grade).opacity(0.6), lineWidth: 1)
                         )
                 }
                 .buttonStyle(.plain)
@@ -33,10 +36,19 @@ struct GradeBar: View {
 
     private func label(for grade: ReviewGrade) -> String {
         switch grade {
-        case .again: "Again"
-        case .hard: "Hard"
-        case .good: "Good"
-        case .easy: "Easy"
+        case .again: "again"
+        case .hard:  "hard"
+        case .good:  "good"
+        case .easy:  "easy"
+        }
+    }
+
+    private func color(for grade: ReviewGrade) -> Color {
+        switch grade {
+        case .again: Theme.Palette.gradeAgain
+        case .hard:  Theme.Palette.gradeHard
+        case .good:  Theme.Palette.gradeGood
+        case .easy:  Theme.Palette.gradeEasy
         }
     }
 }

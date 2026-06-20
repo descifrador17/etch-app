@@ -8,6 +8,7 @@ final class CDDeck: NSManagedObject {
     @NSManaged var topic: String
     @NSManaged var title: String
     @NSManaged var createdAt: Date
+    @NSManaged var difficulty: String
     @NSManaged var cards: Set<CDCard>
 }
 

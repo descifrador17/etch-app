@@ -1,5 +1,6 @@
 import Testing
 import Foundation
+import CoreData
 @testable import RecallKit
 
 @MainActor
@@ -79,6 +80,41 @@ struct RepositoryTests {
         #expect(decks.isEmpty)
         let gone = try await repo.deck(id: deck.id)
         #expect(gone == nil)
+    }
+
+    @Test("Create persists the chosen difficulty")
+    func persistsDifficulty() async throws {
+        let repo = makeRepo()
+        let deck = try await repo.createDeck(topic: "t", title: "t", difficulty: .hard, cards: sampleCards())
+        #expect(deck.difficulty == .hard)
+        let fetched = try await repo.deck(id: deck.id)
+        #expect(fetched?.difficulty == .hard)
+    }
+
+    @Test("Difficulty defaults to medium when unspecified")
+    func defaultsDifficulty() async throws {
+        let repo = makeRepo()
+        let deck = try await repo.createDeck(topic: "t", title: "t", cards: sampleCards())
+        #expect(deck.difficulty == .medium)
+    }
+
+    @Test("Unknown stored difficulty maps to medium")
+    func unknownDifficultyMapsToMedium() async throws {
+        let stack = CoreDataStack(inMemory: true)
+        let repo = CoreDataFlashcardRepository(stack: stack)
+        let ctx = stack.newBackgroundContext()
+        let id = UUID()
+        try await ctx.perform {
+            let d = NSEntityDescription.insertNewObject(forEntityName: "CDDeck", into: ctx) as! CDDeck
+            d.id = id
+            d.topic = "t"
+            d.title = "t"
+            d.createdAt = .now
+            d.difficulty = "legacy-value"
+            try ctx.save()
+        }
+        let fetched = try await repo.deck(id: id)
+        #expect(fetched?.difficulty == .medium)
     }
 
     @Test("decksStream emits an initial snapshot and updates after a write")
