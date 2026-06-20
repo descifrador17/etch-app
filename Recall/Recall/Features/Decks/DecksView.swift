@@ -61,17 +61,17 @@ struct DecksView: View {
     }
 }
 
-/// Calm empty state — one line, one gentle illustration.
+/// Terminal empty state — a bracket glyph and two mono lines.
 struct EmptyDecksView: View {
     var body: some View {
         VStack(spacing: Theme.Spacing.md) {
-            Image(systemName: "rectangle.stack")
-                .font(.system(size: 44, weight: .light))
-                .foregroundStyle(Theme.Palette.accent)
-            Text("No decks yet")
+            Text("[ ]")
+                .font(Theme.Typo.display)
+                .foregroundStyle(Theme.Palette.inkSecondary)
+            Text("no decks yet")
                 .font(Theme.Typo.title)
                 .foregroundStyle(Theme.Palette.ink)
-            Text("Create your first deck from the Create tab.")
+            Text("create your first deck from the create tab.")
                 .font(Theme.Typo.body)
                 .foregroundStyle(Theme.Palette.inkSecondary)
                 .multilineTextAlignment(.center)
@@ -83,4 +83,5 @@ struct EmptyDecksView: View {
 #Preview("Decks") {
     DecksView()
         .environment(AppContainer())
+        .preferredColorScheme(.dark)
 }

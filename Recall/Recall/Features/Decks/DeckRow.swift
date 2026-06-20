@@ -8,10 +8,14 @@ struct DeckRow: View {
 
     var body: some View {
         CardSurface {
-            HStack(alignment: .center, spacing: Theme.Spacing.md) {
+            HStack(alignment: .top, spacing: Theme.Spacing.sm) {
+                Text("[#]")
+                    .font(Theme.Typo.body)
+                    .foregroundStyle(Theme.Palette.inkSecondary)
+
                 VStack(alignment: .leading, spacing: Theme.Spacing.xs) {
                     Text(deck.title)
-                        .font(Theme.Typo.title)
+                        .font(Theme.Typo.body.weight(.semibold))
                         .foregroundStyle(Theme.Palette.ink)
                         .lineLimit(2)
 
@@ -23,7 +27,9 @@ struct DeckRow: View {
                 Spacer(minLength: Theme.Spacing.sm)
 
                 if dueCount > 0 {
-                    DueBadge(count: dueCount)
+                    Text("[\(dueCount) due]")
+                        .font(Theme.Typo.caption)
+                        .foregroundStyle(Theme.Palette.accent)
                 }
             }
             .padding(Theme.Spacing.cardInner)
@@ -37,22 +43,6 @@ struct DeckRow: View {
     }
 }
 
-/// Small accent pill: count of cards due now.
-private struct DueBadge: View {
-    let count: Int
-
-    var body: some View {
-        Text("\(count) due")
-            .font(Theme.Typo.caption)
-            .foregroundStyle(.white)
-            .padding(.horizontal, Theme.Spacing.sm)
-            .padding(.vertical, Theme.Spacing.xs / 2)
-            .background(
-                Capsule().fill(Theme.Palette.accent)
-            )
-    }
-}
-
 #Preview("DeckRow") {
     VStack(spacing: Theme.Spacing.interCard) {
         DeckRow(deck: Deck(topic: "Photosynthesis", title: "Photosynthesis", cards: MockGenerator.sampleCards))
@@ -62,4 +52,5 @@ private struct DueBadge: View {
     }
     .padding()
     .background(Theme.Palette.surface)
+    .preferredColorScheme(.dark)
 }
