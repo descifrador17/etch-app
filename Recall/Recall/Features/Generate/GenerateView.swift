@@ -14,8 +14,7 @@ struct GenerateView: View {
                 content
                     .padding(Theme.Spacing.section)
             }
-            .navigationTitle("Create")
-            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(item: $presentedDeck) { deck in
                 DeckDetailView(deck: deck)
             }

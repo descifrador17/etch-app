@@ -13,7 +13,7 @@ struct DecksView: View {
                     content(viewModel)
                 }
             }
-            .navigationTitle("Decks")
+            .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(for: Deck.self) { deck in
                 DeckDetailView(deck: deck)
             }

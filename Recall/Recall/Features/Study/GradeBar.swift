@@ -12,8 +12,10 @@ struct GradeBar: View {
                 Button {
                     onGrade(grade)
                 } label: {
-                    Text("[ \(label(for: grade)) ]")
+                    Text("[\(label(for: grade))]")
                         .font(Theme.Typo.buttonLabel)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, Theme.Spacing.md)
                         .foregroundStyle(color(for: grade))
