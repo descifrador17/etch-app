@@ -73,12 +73,4 @@ public extension Theme {
         public static let card: CGFloat = 0    // sharp containers
         public static let button: CGFloat = 4  // the only rounded thing
     }
-
-    /// Retained only until CardSurface stops consuming it (Task 2). No element
-    /// in the terminal system casts a shadow.
-    enum Shadow {
-        public static let radius: CGFloat = 24
-        public static let y: CGFloat = 8
-        public static let opacity: Double = 0.06
-    }
 }
