@@ -35,7 +35,7 @@ final class GenerateViewModel {
         generator.prewarm()
     }
 
-    func generate(topic: String) {
+    func generate(topic: String, difficulty: Difficulty) {
         let trimmed = topic.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
 
@@ -60,6 +60,7 @@ final class GenerateViewModel {
                 let deck = try await repository.createDeck(
                     topic: trimmed,
                     title: last.title ?? trimmed,
+                    difficulty: difficulty,
                     cards: last.cards
                 )
                 Haptics.success()

@@ -7,7 +7,7 @@ import Foundation
 /// Data work hops onto a background context via `perform`.
 @MainActor
 public protocol FlashcardRepository: Sendable {
-    func createDeck(topic: String, title: String, cards: [Flashcard]) async throws -> Deck
+    func createDeck(topic: String, title: String, difficulty: Difficulty, cards: [Flashcard]) async throws -> Deck
     func allDecks() async throws -> [Deck]
     func deck(id: UUID) async throws -> Deck?
     func deleteDeck(id: UUID) async throws

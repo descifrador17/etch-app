@@ -20,7 +20,7 @@ public final class CoreDataFlashcardRepository: FlashcardRepository {
 
     // MARK: - Writes
 
-    public func createDeck(topic: String, title: String, cards: [Flashcard]) async throws -> Deck {
+    public func createDeck(topic: String, title: String, difficulty: Difficulty = .medium, cards: [Flashcard]) async throws -> Deck {
         let context = stack.newBackgroundContext()
         let deck = try await context.perform {
             let cdDeck = NSEntityDescription.insertNewObject(forEntityName: "CDDeck", into: context) as! CDDeck
@@ -28,6 +28,7 @@ public final class CoreDataFlashcardRepository: FlashcardRepository {
             cdDeck.topic = topic
             cdDeck.title = title
             cdDeck.createdAt = .now
+            cdDeck.difficulty = difficulty.rawValue
 
             for (index, card) in cards.enumerated() {
                 let cdCard = NSEntityDescription.insertNewObject(forEntityName: "CDCard", into: context) as! CDCard
